@@ -18,7 +18,7 @@
 
         body {
             margin: 0; background: var(--bg-dark); color: var(--text-main);
-            font-family: 'Inter', sans-serif; overflow-x: hidden; perspective: 1200px;
+            font-family: 'Inter', -apple-system, sans-serif; overflow-x: hidden; perspective: 1200px;
         }
 
         .bg-canvas {
@@ -29,69 +29,81 @@
 
         .ui-shell { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
 
+        /* Dhananjay's Card Style */
         .ui-card {
             background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 28px; padding: 40px; backdrop-filter: blur(20px);
+            border-radius: 28px; padding: 50px; backdrop-filter: blur(20px);
             margin-bottom: 30px; transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
         }
 
-        h1 { font-size: 3.5rem; letter-spacing: -2px; margin: 0; font-weight: 900; }
+        .pill { background: rgba(52, 152, 219, 0.1); color: var(--primary); padding: 6px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        h1 { font-size: 3.8rem; letter-spacing: -3px; margin: 20px 0; line-height: 1; font-weight: 900; }
         .gradient { background: linear-gradient(90deg, #3498db, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 20px; display: block; font-weight: 700;}
 
-        /* SKILLS SECTION */
-        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill-pill { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; transition: 0.3s; }
-        .skill-pill:hover { background: var(--primary); color: white; transform: scale(1.1); }
+        .section-tag { font-size: 0.8rem; text-transform: uppercase; color: var(--primary); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; display: block; }
 
-        /* ORBIT SYSTEM - THE FIX */
-        .orbit-container {
+        /* Metrics Grid */
+        .metric-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 20px; margin-top: 40px; border-top: 1px solid var(--glass-border); padding-top: 30px;
+        }
+        .metric-num { font-size: 2.5rem; font-weight: 800; color: #fff; display: block; }
+        .metric-label { color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; }
+
+        /* SKILLS PILLS */
+        .skills-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .skill-tag { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; }
+
+        /* THE ORBIT (Counter-Rotating) */
+        .orbit-box {
             height: 450px; position: relative; display: flex; align-items: center; justify-content: center;
             margin: 40px 0;
         }
-        .center-logo { 
-            text-align: center; z-index: 10; background: #0a0c10; 
-            padding: 25px; border-radius: 50%; border: 2px solid var(--primary);
-            box-shadow: 0 0 30px rgba(52, 152, 219, 0.3);
-        }
+        .center-hub { z-index: 10; background: #0a0c10; padding: 20px; border-radius: 50%; border: 2px solid var(--primary); text-align: center; width: 100px; height: 100px; display: flex; flex-direction: column; justify-content: center; }
         
-        /* The Ring Rotates Clockwise */
-        .orbit-ring {
-            position: absolute; width: 320px; height: 320px; border: 1px dashed rgba(52, 152, 219, 0.4);
-            border-radius: 50%; animation: rotateRing 25s linear infinite;
+        .ring {
+            position: absolute; width: 340px; height: 340px; border: 1px dashed rgba(52, 152, 219, 0.3);
+            border-radius: 50%; animation: orbitRotate 30s linear infinite;
         }
 
         .orbit-item {
             position: absolute; background: var(--glass); border: 1px solid var(--glass-border);
-            padding: 12px 18px; border-radius: 14px; font-size: 0.8rem; font-weight: 600;
-            backdrop-filter: blur(10px); color: #fff;
-            /* The Item Rotates Counter-Clockwise to stay upright */
-            animation: keepUpright 25s linear infinite;
+            padding: 12px 20px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
+            backdrop-filter: blur(10px); white-space: nowrap;
+            /* Anti-Rotation to keep text upright */
+            animation: antiRotate 30s linear infinite;
         }
 
-        /* Positions on the ring */
-        .i1 { top: -20px; left: 50%; margin-left: -70px; }
-        .i2 { bottom: -20px; left: 50%; margin-left: -70px; }
-        .i3 { left: -60px; top: 50%; margin-top: -20px; }
-        .i4 { right: -60px; top: 50%; margin-top: -20px; }
+        /* Positions on Ring */
+        .pos1 { top: -20px; left: 50%; transform: translateX(-50%); }
+        .pos2 { bottom: -20px; left: 50%; transform: translateX(-50%); }
+        .pos3 { left: -60px; top: 50%; transform: translateY(-50%); }
+        .pos4 { right: -60px; top: 50%; transform: translateY(-50%); }
 
-        @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes keepUpright { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        @keyframes orbitRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes antiRotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
-        /* PROJECTS */
+        /* Projects Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .work-card { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 18px; border: 1px solid var(--glass-border); }
+        .project-card { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border); transition: 0.3s; }
+        .project-card:hover { border-color: var(--accent); background: rgba(46, 204, 113, 0.05); transform: translateY(-5px); }
 
-        /* CONTACT CTA */
-        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
-        .btn { padding: 15px 25px; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .btn-blue { background: var(--primary); color: white; }
-        .btn-green { background: #25d366; color: white; }
+        /* CONTACT CTAs */
+        .footer-cta { text-align: center; padding: 80px 0; border-top: 1px solid var(--glass-border); }
+        .cta-btns { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+        .btn { padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-main { background: var(--primary); color: white; }
+        .btn-wa { background: #25d366; color: white; }
         .btn-outline { border: 1px solid var(--glass-border); color: white; }
-        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
-        @media (max-width: 768px) { h1 { font-size: 2.2rem; } .grid { grid-template-columns: 1fr; } .orbit-container { transform: scale(0.6); } }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .metric-grid, .grid { grid-template-columns: 1fr; }
+            .orbit-box { transform: scale(0.65); }
+        }
     </style>
 </head>
 <body>
@@ -99,89 +111,108 @@
 <div class="bg-canvas"></div>
 
 <main class="ui-shell">
-    <section class="ui-card" id="hero">
-        <span class="section-title">Statistician & Data Scientist</span>
+    <section class="ui-card" id="hero-card">
+        <span class="pill">◯ Statistician & Data Scientist</span>
         <h1>I am <span class="gradient">Vishnu V. S.</span></h1>
-        <p style="margin-top: 25px; color: var(--text-dim); font-size: 1.15rem; line-height: 1.7;">
-            <strong>Career Objective:</strong> I aim to leverage my core skills in Applied Statistics and Data Analytics to contribute to data-driven research, 
-            while advancing my strong interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
+        <p style="margin-top: 25px; color: var(--text-dim); font-size: 1.2rem; line-height: 1.6; max-width: 750px;">
+            <strong>Career Objective:</strong> Leveraging an M.Sc. in Applied Statistics to architect high-performance data models. 
+            I build systems at the seam of theoretical probability and production-scale machine learning, with a core focus on 
+            <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
         </p>
-    </section>
 
-    <section class="ui-card">
-        <span class="section-title">Technical Capabilities</span>
-        <div class="skills-grid">
-            <div class="skill-pill">Python & R</div>
-            <div class="skill-pill">MCMC Algorithms</div>
-            <div class="skill-pill">Bayesian Inference</div>
-            <div class="skill-pill">Deep Learning (LSTM/RNN)</div>
-            <div class="skill-pill">Survival Analysis</div>
-            <div class="skill-pill">SQL & SPSS</div>
-            <div class="skill-pill">Power BI</div>
-        </div>
-    </section>
-
-    <section class="ui-card">
-        <span class="section-title">Contributions @ Asirvad Microfinance</span>
-        <div class="orbit-container">
-            <div class="center-logo">
-                <i class="fas fa-university" style="font-size: 2rem; color: var(--primary);"></i>
-                <div style="font-size: 0.7rem; font-weight: 700; margin-top: 8px;">DATA ANALYST</div>
+        <div class="metric-grid">
+            <div class="metric">
+                <span class="metric-num">8.28</span>
+                <span class="metric-label">M.Sc. CGPA</span>
             </div>
-            <div class="orbit-ring">
-                <div class="orbit-item i1">Branch Deposit Tracking</div>
-                <div class="orbit-item i2">Regression Risk Models</div>
-                <div class="orbit-item i3">Fraud Analysis</div>
-                <div class="orbit-item i4">Automated Reporting</div>
+            <div class="metric">
+                <span class="metric-num">FinTech</span>
+                <span class="metric-label">Production Exp</span>
+            </div>
+            <div class="metric">
+                <span class="metric-num">LSTM</span>
+                <span class="metric-label">Core Architecture</span>
             </div>
         </div>
     </section>
 
     <section class="ui-card">
-        <span class="section-title">About Me</span>
-        <p style="line-height: 1.8; color: var(--text-dim);">
-            I am an M.Sc. Graduate from the <strong>University of Kerala (8.28 CGPA)</strong> with a deep passion for mathematical modeling. 
-            Beyond my analytical work, I am a <strong>Rajyapuraskar Scout</strong> awardee and a regular <strong>Blood Donors Kerala</strong> volunteer. 
-            I believe in the intersection of rigorous science and community service.
+        <span class="section-tag">Capabilities</span>
+        <div class="skills-wrap">
+            <div class="skill-tag">Python & R</div>
+            <div class="skill-tag">SQL & NoSQL</div>
+            <div class="skill-tag">Bayesian Inference</div>
+            <div class="skill-tag">Survival Analysis</div>
+            <div class="skill-tag">Time Series (LSTM/RNN)</div>
+            <div class="skill-tag">Power BI & Tableau</div>
+            <div class="skill-tag">SPSS & IBM Statistics</div>
+        </div>
+    </section>
+
+    <section class="ui-card">
+        <span class="section-tag">Past Contributions @ Asirvad</span>
+        <div class="orbit-box">
+            <div class="center-hub">
+                <i class="fas fa-microchip" style="color: var(--primary); font-size: 1.5rem;"></i>
+                <div style="font-size: 0.6rem; font-weight: 800; margin-top: 5px;">CASH ANALYST</div>
+            </div>
+            <div class="ring">
+                <div class="orbit-item pos1">Branch Deposit Trackers</div>
+                <div class="orbit-item pos2">Regression Risk Models</div>
+                <div class="orbit-item pos3">Fraud Mitigation</div>
+                <div class="orbit-item pos4">Automated Data Pipelines</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ui-card">
+        <span class="section-tag">About Me</span>
+        <h2 style="margin: 0 0 20px 0;">Rigorous Analysis & Social Leadership</h2>
+        <p style="line-height: 1.8; color: var(--text-dim); font-size: 1.1rem;">
+            I value mathematical precision because statistics is the language of truth. Beyond building forecasting models, I am a 
+            <strong>Rajyapuraskar Scout</strong> and an active volunteer for <strong>Blood Donors Kerala</strong>. 
+            I believe the best data scientists aren't just experts in code, but in the human impact behind the numbers.
         </p>
     </section>
 
     <section class="ui-card">
-        <span class="section-title">Featured Projects</span>
+        <span class="section-tag">Works & Highlights</span>
         <div class="grid">
-            <div class="work-card">
-                <h3>Stock Price Prediction</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Comparative analysis using LSTM and Random Forest to forecast Kotak Mahindra Bank equity trends.</p>
+            <div class="project-card">
+                <h3>Stock Prediction Engine</h3>
+                <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;">Built a comparative neural network system (LSTM vs Random Forest) to forecast Kotak Mahindra Bank equity trends.</p>
+                <span class="pill" style="font-size: 0.6rem;">Deep Learning</span>
             </div>
-            <div class="work-card">
+            <div class="project-card">
                 <h3>Lung Cancer Survival Analysis</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Utilized Cox-Proportional Hazards and Kaplan-Meier to model survival probabilities in biostatistics.</p>
+                <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;">Implemented Cox-Proportional Hazards models on clinical datasets to predict patient survival probabilities.</p>
+                <span class="pill" style="font-size: 0.6rem;">Biostatistics</span>
             </div>
         </div>
     </section>
 
-    <section class="contact-footer" style="text-align: center; padding: 60px 0;">
-        <h2 style="font-size: 2.2rem; margin-bottom: 30px;">Let's Connect</h2>
-        <div class="btn-group">
+    <footer class="footer-cta">
+        <h2 style="font-size: 2.5rem; letter-spacing: -1px;">Let's ship something great.</h2>
+        <div class="cta-btns">
             <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline">
                 <i class="fas fa-envelope"></i> Email Resume
             </a>
-            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue">
+            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-main">
                 <i class="fab fa-linkedin"></i> LinkedIn
             </a>
-            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-green">
-                <i class="fab fa-whatsapp"></i> WhatsApp
+            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-wa">
+                <i class="fab fa-whatsapp"></i> WhatsApp Me
             </a>
         </div>
-        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-dim);">Kollam, Kerala, India - 691537</p>
-    </section>
+        <p style="margin-top: 40px; color: var(--text-dim); font-size: 0.8rem;">Kollam, Kerala, India - 691537</p>
+    </footer>
 </main>
 
 <script>
-    // 3D Tilt Effect for Glass Cards
+    // 3D Tilt Effect
     document.addEventListener('mousemove', (e) => {
-        const x = (window.innerWidth / 2 - e.pageX) / 35;
-        const y = (window.innerHeight / 2 - e.pageY) / 35;
+        const x = (window.innerWidth / 2 - e.pageX) / 40;
+        const y = (window.innerHeight / 2 - e.pageY) / 40;
         
         document.querySelectorAll('.ui-card').forEach(card => {
             card.style.transform = `rotateY(${x}deg) rotateX(${y * -1}deg)`;

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishnu V. S. | Researcher Portfolio</title>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -9,95 +13,88 @@
       gtag('config', 'G-XXXXXXXXXX');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vishnu V. S. | Researcher Portfolio</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #ffffff; }
-        .container { max-width: 900px; margin: auto; padding: 20px; }
-        section { margin-bottom: 40px; }
-        h2 { border-bottom: 2px solid #3498db; padding-bottom: 5px; color: #2c3e50; }
-        .skill-tag { background: #eef2f7; padding: 5px 12px; border-radius: 15px; font-size: 0.9em; display: inline-block; margin: 5px; border: 1px solid #d1d9e6; }
-        
-        /* Floating WhatsApp Style */
-        .float-wa {
-            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
-            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2); z-index: 1000; display: flex;
-            align-items: center; justify-content: center; text-decoration: none; transition: transform 0.3s ease;
+        :root {
+            --primary-blue: #3498db;
+            --dark-navy: #0d1117;
+            --text-gray: #333;
         }
-        .float-wa:hover { transform: scale(1.1); background-color: #128c7e; }
-    </style>
-</head>
-<body>
 
-<div id="particles-js" style="position: relative; width: 100%; height: 450px; background-color: #0d1117; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
-  <div style="z-index: 1; text-align: center; color: white;">
-    <img src="./assets/my-photo.png" style="width: 130px; border-radius: 50%; border: 3px solid #3498db; margin-bottom: 20px;" alt="Vishnu VS">
-    <h1 style="margin: 0; font-size: 2.8em;">Vishnu V. S.</h1>
-    <h2 style="font-weight: 300; border:none; color: white;">Researcher in <span id="typed" style="color: #3498db; font-weight: bold;"></span></h2>
-    <div style="margin-top: 20px;">
-      <a href="mailto:Gvinodsvishnu37@gmail.com" style="color: white; text-decoration: none; margin: 5px; border: 1px solid white; padding: 8px 15px; border-radius: 20px; display: inline-block;">📧 Email</a>
-      <a href="https://www.linkedin.com/in/vishnu-v-s-61616" style="color: white; text-decoration: none; margin: 5px; border: 1px solid white; padding: 8px 15px; border-radius: 20px; display: inline-block;">🔗 LinkedIn</a>
-    </div>
-  </div>
-</div>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-gray); 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: hidden;
+        }
 
-<div class="container">
-    <section>
-        <h2>🔬 Research Focus</h2>
-        <p>I am a highly motivated researcher specializing in applying statistical and machine learning techniques to real-world problems. My core interests include <strong>Scalable Bayesian Inference, MCMC Algorithms,</strong> and <strong>Survival Analysis</strong>.</p>
-    </section>
+        .container { max-width: 900px; margin: auto; padding: 20px; }
 
-    <section>
-        <h2>📊 Featured Projects</h2>
-        <h3>Stock Price Prediction (Master's Project)</h3>
-        <p>Built LSTM, Random Forest, and KNN models to forecast Kotak Mahindra Bank stock prices. Identified LSTM as the top-performing model based on RMSE.</p>
-        <h3>Survival Analysis on Lung Cancer Data</h3>
-        <p>Applied Cox Proportional Hazards models and Kaplan-Meier curves using R.</p>
-    </section>
+        /* Animation: Scroll Reveal Base State */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease-out;
+        }
 
-    <section>
-        <h2>🛠 Technical Skills</h2>
-        <div class="skill-tag">Python</div> <div class="skill-tag">R (Tidyverse)</div> <div class="skill-tag">SQL</div> <div class="skill-tag">SPSS</div>
-        <div class="skill-tag">Time-Series</div> <div class="skill-tag">MCMC</div> <div class="skill-tag">Bayesian Modeling</div>
-    </section>
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    <section>
-        <h2>🎓 Education</h2>
-        <p><strong>M.Sc. Applied Statistics and Data Analytics</strong> | University of Kerala (CGPA: 8.28)</p>
-        <p><strong>B.Sc. Statistics</strong> | University of Kerala (CGPA: 7.63)</p>
-    </section>
+        section { margin-bottom: 60px; }
 
-    <div style="text-align: center; padding: 20px 0;">
-        <a href="./assets/VISHNU_VS~ACADEMIC.pdf" style="background: #3498db; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">📄 Download Full CV</a>
-    </div>
+        h2 { 
+            border-bottom: 2px solid var(--primary-blue); 
+            padding-bottom: 10px; 
+            color: #2c3e50; 
+            display: inline-block;
+            margin-bottom: 25px;
+        }
 
-    <div style="text-align: center; margin-top: 20px;">
-      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fvishnuvinodsheeja.github.io&count_bg=%233498DB&title_bg=%232C3E50&title=Visits" alt="Visitor Count"/>
-    </div>
-</div>
+        /* Technical Skill Tags with Hover Animation */
+        .skill-tag { 
+            background: #f0f4f8; 
+            padding: 8px 18px; 
+            border-radius: 20px; 
+            font-size: 0.9em; 
+            display: inline-block; 
+            margin: 6px; 
+            border: 1px solid #d1d9e6; 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
 
-<a href="https://wa.me/919446338988" class="float-wa" target="_blank">
-  <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-</a>
+        .skill-tag:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: scale(1.15) rotate(2deg);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-<script>
-  new Typed('#typed', {
-    strings: ['Applied Statistics', 'Bayesian Inference', 'MCMC Algorithms', 'Machine Learning'],
-    typeSpeed: 60, backSpeed: 40, loop: true
-  });
-  particlesJS('particles-js', {
-    "particles": {
-      "number": { "value": 80 }, "color": { "value": "#3498db" }, "shape": { "type": "circle" },
-      "opacity": { "value": 0.5 }, "size": { "value": 3 },
-      "line_linked": { "enable": true, "distance": 150, "color": "#3498db", "opacity": 0.4, "width": 1 },
-      "move": { "enable": true, "speed": 2 }
-    },
-    "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }
-  });
-</script>
-</body>
-</html>
+        /* Pulsing WhatsApp Button */
+        @keyframes pulse-wa {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        .float-wa {
+            position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px;
+            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; animation: pulse-wa 2s infinite;
+        }
+
+        /* Buttons Hover */
+        .btn-cv {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3

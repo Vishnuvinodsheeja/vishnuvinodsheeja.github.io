@@ -18,7 +18,7 @@
 
         body {
             margin: 0; background: var(--bg-dark); color: var(--text-main);
-            font-family: 'Inter', sans-serif; overflow-x: hidden; perspective: 1000px;
+            font-family: 'Inter', sans-serif; overflow-x: hidden; perspective: 1200px;
         }
 
         .bg-canvas {
@@ -29,7 +29,6 @@
 
         .ui-shell { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
 
-        /* 3D Glass Cards */
         .ui-card {
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 28px; padding: 40px; backdrop-filter: blur(20px);
@@ -39,52 +38,60 @@
 
         h1 { font-size: 3.5rem; letter-spacing: -2px; margin: 0; font-weight: 900; }
         .gradient { background: linear-gradient(90deg, #3498db, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 20px; display: block;}
+        .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 20px; display: block; font-weight: 700;}
 
-        /* Skills Pill Cloud */
-        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        /* SKILLS SECTION */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
         .skill-pill { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; transition: 0.3s; }
         .skill-pill:hover { background: var(--primary); color: white; transform: scale(1.1); }
 
-        /* CIRCULAR ORBIT ANIMATION (Past Company Contributions) */
+        /* ORBIT SYSTEM - THE FIX */
         .orbit-container {
-            height: 400px; position: relative; display: flex; align-items: center; justify-content: center;
-            margin: 40px 0; overflow: hidden;
+            height: 450px; position: relative; display: flex; align-items: center; justify-content: center;
+            margin: 40px 0;
         }
-        .center-logo { text-align: center; z-index: 10; background: var(--bg-dark); padding: 20px; border-radius: 50%; border: 1px solid var(--primary); }
+        .center-logo { 
+            text-align: center; z-index: 10; background: #0a0c10; 
+            padding: 25px; border-radius: 50%; border: 2px solid var(--primary);
+            box-shadow: 0 0 30px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* The Ring Rotates Clockwise */
         .orbit-ring {
-            position: absolute; width: 300px; height: 300px; border: 1px dashed rgba(52, 152, 219, 0.3);
-            border-radius: 50%; animation: rotate 20s linear infinite;
+            position: absolute; width: 320px; height: 320px; border: 1px dashed rgba(52, 152, 219, 0.4);
+            border-radius: 50%; animation: rotateRing 25s linear infinite;
         }
+
         .orbit-item {
             position: absolute; background: var(--glass); border: 1px solid var(--glass-border);
-            padding: 10px 15px; border-radius: 12px; font-size: 0.75rem; white-space: nowrap;
-            backdrop-filter: blur(10px);
+            padding: 12px 18px; border-radius: 14px; font-size: 0.8rem; font-weight: 600;
+            backdrop-filter: blur(10px); color: #fff;
+            /* The Item Rotates Counter-Clockwise to stay upright */
+            animation: keepUpright 25s linear infinite;
         }
-        /* Position items around the circle */
-        .i1 { top: 0; left: 50%; transform: translateX(-50%); }
-        .i2 { bottom: 0; left: 50%; transform: translateX(-50%); }
-        .i3 { left: 0; top: 50%; transform: translateY(-50%); }
-        .i4 { right: 0; top: 50%; transform: translateY(-50%); }
 
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* Positions on the ring */
+        .i1 { top: -20px; left: 50%; margin-left: -70px; }
+        .i2 { bottom: -20px; left: 50%; margin-left: -70px; }
+        .i3 { left: -60px; top: 50%; margin-top: -20px; }
+        .i4 { right: -60px; top: 50%; margin-top: -20px; }
 
-        /* Project Grid */
+        @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes keepUpright { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+        /* PROJECTS */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .work-card { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 18px; border: 1px solid var(--glass-border); transition: 0.3s; }
-        .work-card:hover { border-color: var(--accent); background: rgba(46, 204, 113, 0.05); }
+        .work-card { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 18px; border: 1px solid var(--glass-border); }
 
-        /* Contact Section */
-        .contact-footer { text-align: center; padding: 80px 0; border-top: 1px solid var(--glass-border); }
-        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
-        .btn { padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 700; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        /* CONTACT CTA */
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        .btn { padding: 15px 25px; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
         .btn-blue { background: var(--primary); color: white; }
         .btn-green { background: #25d366; color: white; }
         .btn-outline { border: 1px solid var(--glass-border); color: white; }
         .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 
-        @media (max-width: 768px) { h1 { font-size: 2.5rem; } .grid { grid-template-columns: 1fr; } .orbit-container { transform: scale(0.7); } }
+        @media (max-width: 768px) { h1 { font-size: 2.2rem; } .grid { grid-template-columns: 1fr; } .orbit-container { transform: scale(0.6); } }
     </style>
 </head>
 <body>
@@ -95,39 +102,37 @@
     <section class="ui-card" id="hero">
         <span class="section-title">Statistician & Data Scientist</span>
         <h1>I am <span class="gradient">Vishnu V. S.</span></h1>
-        <p style="margin-top: 20px; color: var(--text-dim); font-size: 1.1rem; line-height: 1.6; max-width: 700px;">
-            <strong>Career Objective:</strong> Highly motivated researcher with a strong background in Applied Statistics. 
-            I aim to leverage statistical and machine learning techniques to contribute to data-driven research, 
-            advancing my interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
+        <p style="margin-top: 25px; color: var(--text-dim); font-size: 1.15rem; line-height: 1.7;">
+            <strong>Career Objective:</strong> I aim to leverage my core skills in Applied Statistics and Data Analytics to contribute to data-driven research, 
+            while advancing my strong interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
         </p>
     </section>
 
     <section class="ui-card">
         <span class="section-title">Technical Capabilities</span>
         <div class="skills-grid">
-            <div class="skill-pill">Python (NumPy, Pandas, Scikit-Learn)</div>
-            <div class="skill-pill">R Programming</div>
-            <div class="skill-pill">SQL</div>
-            <div class="skill-pill">Machine Learning (LSTM, RNN, CNN, SVM)</div>
+            <div class="skill-pill">Python & R</div>
+            <div class="skill-pill">MCMC Algorithms</div>
             <div class="skill-pill">Bayesian Inference</div>
+            <div class="skill-pill">Deep Learning (LSTM/RNN)</div>
             <div class="skill-pill">Survival Analysis</div>
-            <div class="skill-pill">Time Series Forecasting</div>
-            <div class="skill-pill">Power BI & SPSS</div>
+            <div class="skill-pill">SQL & SPSS</div>
+            <div class="skill-pill">Power BI</div>
         </div>
     </section>
 
     <section class="ui-card">
-        <span class="section-title">Past Impact: Asirvad Microfinance</span>
+        <span class="section-title">Contributions @ Asirvad Microfinance</span>
         <div class="orbit-container">
             <div class="center-logo">
-                <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--primary);"></i>
-                <div style="font-size: 0.8rem; margin-top: 5px;">Cash Mgmt Analyst</div>
+                <i class="fas fa-university" style="font-size: 2rem; color: var(--primary);"></i>
+                <div style="font-size: 0.7rem; font-weight: 700; margin-top: 8px;">CASH ANALYST</div>
             </div>
             <div class="orbit-ring">
                 <div class="orbit-item i1">Branch Deposit Tracking</div>
-                <div class="orbit-item i2">Regression Modeling</div>
-                <div class="orbit-item i3">Fraud Risk Mitigation</div>
-                <div class="orbit-item i4">Automated Data Pipelines</div>
+                <div class="orbit-item i2">Regression Risk Models</div>
+                <div class="orbit-item i3">Fraud Analysis</div>
+                <div class="orbit-item i4">Automated Reporting</div>
             </div>
         </div>
     </section>
@@ -135,64 +140,52 @@
     <section class="ui-card">
         <span class="section-title">About Me</span>
         <p style="line-height: 1.8; color: var(--text-dim);">
-            I hold an <strong>M.Sc. in Applied Statistics and Data Analytics</strong> from the University of Kerala (CGPA: 8.28). 
-            My academic journey has been driven by a fascination with how mathematical models can predict real-world outcomes. 
-            Beyond the data, I am a Rajyapuraskar Award-winning Scout and an active NSS volunteer, valuing community and self-improvement.
+            I am an M.Sc. Graduate from the <strong>University of Kerala (8.28 CGPA)</strong> with a deep passion for mathematical modeling. 
+            Beyond my analytical work, I am a <strong>Rajyapuraskar Scout</strong> awardee and a regular <strong>Blood Donors Kerala</strong> volunteer. 
+            I believe in the intersection of rigorous science and community service.
         </p>
     </section>
 
     <section class="ui-card">
-        <span class="section-title">Highlights & Research</span>
+        <span class="section-title">Featured Projects</span>
         <div class="grid">
             <div class="work-card">
-                <h3 style="margin-top:0">Stock Price Prediction</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">A comparative study using LSTM, Random Forest, and KNN for forecasting Kotak Mahindra Bank stocks. Achieved high predictive accuracy for NSE trends.</p>
+                <h3>Stock Price Prediction</h3>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Comparative analysis using LSTM and Random Forest to forecast Kotak Mahindra Bank equity trends.</p>
             </div>
             <div class="work-card">
-                <h3 style="margin-top:0">Survival Analysis</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Applied Cox Proportional Hazards and Kaplan-Meier estimators on Lung Cancer datasets to model patient survival probabilities.</p>
+                <h3>Lung Cancer Survival Analysis</h3>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Utilized Cox-Proportional Hazards and Kaplan-Meier to model survival probabilities in biostatistics.</p>
             </div>
         </div>
     </section>
 
-    <section class="contact-footer">
-        <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Let's Connect</h2>
-        <p style="color: var(--text-dim);">Ready to contribute to data-driven research and analytical innovation.</p>
-        
+    <section class="contact-footer" style="text-align: center; padding: 60px 0;">
+        <h2 style="font-size: 2.2rem; margin-bottom: 30px;">Let's Connect</h2>
         <div class="btn-group">
             <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline">
                 <i class="fas fa-envelope"></i> Email Resume
             </a>
-            <a href="https://www.linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue">
+            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue">
                 <i class="fab fa-linkedin"></i> LinkedIn
             </a>
             <a href="https://wa.me/919446338988" target="_blank" class="btn btn-green">
-                <i class="fab fa-whatsapp"></i> WhatsApp Me
+                <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
         </div>
-        
-        <div style="margin-top: 30px;">
-            <a href="uploaded:VISHNU_VS~ACADEMIC.pdf" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">
-                <i class="fas fa-file-pdf"></i> Download Full CV
-            </a>
-        </div>
+        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-dim);">Kollam, Kerala, India - 691537</p>
     </section>
 </main>
 
 <script>
-    // 3D TILT EFFECT
+    // 3D Tilt Effect for Glass Cards
     document.addEventListener('mousemove', (e) => {
-        const x = (window.innerWidth / 2 - e.pageX) / 30;
-        const y = (window.innerHeight / 2 - e.pageY) / 30;
+        const x = (window.innerWidth / 2 - e.pageX) / 35;
+        const y = (window.innerHeight / 2 - e.pageY) / 35;
         
         document.querySelectorAll('.ui-card').forEach(card => {
             card.style.transform = `rotateY(${x}deg) rotateX(${y * -1}deg)`;
         });
-
-        // Background parallax
-        const bgX = (e.clientX / window.innerWidth - 0.5) * 20;
-        const bgY = (e.clientY / window.innerHeight - 0.5) * 20;
-        document.querySelector('.bg-canvas').style.transform = `translate(${bgX}px, ${bgY}px)`;
     });
 </script>
 

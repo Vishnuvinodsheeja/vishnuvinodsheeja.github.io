@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vishnu V. S. | Applied Statistics & Data Analytics</title>
+    <title>Vishnu V. S. | Applied Statistics Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -21,73 +21,72 @@
             font-family: 'Inter', sans-serif; overflow-x: hidden;
         }
 
-        /* 3D Ambient Background Layer */
+        /* 3D Background */
         .bg-canvas {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: radial-gradient(circle at 50% 50%, #1a202c 0%, #0a0c10 100%);
             z-index: -1;
         }
 
-        .ui-shell { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        .ui-shell { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
 
-        /* Glassmorphism Cards with Entry Animation */
+        /* Card with 3D Tilt Effect */
         .ui-card {
             background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 60px; backdrop-filter: blur(20px);
-            margin-bottom: 30px; position: relative; overflow: hidden;
-            animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 24px; padding: 50px; backdrop-filter: blur(20px);
+            margin-bottom: 40px; transform-style: preserve-3d;
+            transition: transform 0.1s ease;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* The Animated Orbs (Replicating Dhananjay's Visuals) */
-        .orb {
-            position: absolute; width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.2) 0%, transparent 70%);
-            filter: blur(40px); z-index: -1; animation: float 10s infinite alternate;
-        }
-        @keyframes float { from { transform: translate(0,0); } to { transform: translate(100px, 50px); } }
-
-        .hero-pill {
-            background: rgba(52, 152, 219, 0.1); color: var(--primary);
-            padding: 6px 16px; border-radius: 100px; font-size: 0.8rem;
+        .pill {
+            background: rgba(52, 152, 219, 0.15); color: var(--primary);
+            padding: 6px 16px; border-radius: 100px; font-size: 0.75rem;
             font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        h1 { font-size: 4rem; letter-spacing: -3px; margin: 25px 0; line-height: 1; font-weight: 900; }
+        h1 { font-size: 3.8rem; letter-spacing: -3px; margin: 25px 0; line-height: 1; font-weight: 900; }
         .gradient { background: linear-gradient(90deg, #3498db, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         /* Metric Grid */
         .metric-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px; margin-top: 50px; border-top: 1px solid var(--glass-border); padding-top: 40px;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 20px; margin-top: 40px; border-top: 1px solid var(--glass-border); padding-top: 30px;
         }
-        .metric-num { font-size: 2.8rem; font-weight: 800; color: #fff; display: block; }
-        .metric-label { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-num { font-size: 2.2rem; font-weight: 800; color: #fff; display: block; }
+        .metric-label { color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; }
 
-        /* Project Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .project-card {
+        /* Experience/Project Grid */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .glass-item {
             background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);
-            padding: 30px; border-radius: 20px; transition: 0.4s;
+            padding: 25px; border-radius: 16px; transition: 0.3s;
         }
-        .project-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--primary); background: rgba(52, 152, 219, 0.05); }
+        .glass-item:hover { border-color: var(--primary); background: rgba(52, 152, 219, 0.08); }
 
-        /* Interactive Terminal */
-        .terminal-box {
-            background: #000; border-radius: 15px; font-family: 'Fira Code', monospace;
-            padding: 25px; border: 1px solid #333; margin-top: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative;
+        /* Footer CTA Section */
+        .cta-section { text-align: center; margin-top: 60px; padding: 60px 0; border-top: 1px solid var(--glass-border); }
+        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+        
+        .btn {
+            padding: 15px 30px; border-radius: 12px; font-weight: 700;
+            text-decoration: none; transition: 0.3s; display: flex; align-items: center; gap: 10px;
         }
-        .term-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { border: 1px solid var(--glass-border); color: white; }
+        .btn-whatsapp { background: #25d366; color: white; }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        .tag {
-            font-size: 0.7rem; background: rgba(255,255,255,0.05);
-            padding: 4px 10px; border-radius: 6px; color: var(--text-dim);
-            margin-right: 6px; border: 1px solid var(--glass-border);
+        /* Terminal Mockup */
+        .terminal {
+            background: #000; border-radius: 12px; padding: 20px; 
+            font-family: 'Fira Code', monospace; font-size: 0.9rem;
+            border: 1px solid #333; margin-top: 30px;
         }
 
-        @media (max-width: 768px) { h1 { font-size: 3rem; } .metric-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .metric-grid, .grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -95,116 +94,105 @@
 <div class="bg-canvas"></div>
 
 <main class="ui-shell">
-    <section class="ui-card">
-        <div class="orb"></div>
-        <div class="hero-pill">Researcher • Applied Statistics</div>
-        <h1><span class="gradient">Vishnu V. S.</span><br>architects data models.</h1>
-        <p style="font-size: 1.25rem; color: var(--text-dim); max-width: 680px; line-height: 1.6;">
-            Leveraging an M.Sc. foundation  to advance <strong>scalable Bayesian inference</strong> and <strong>MCMC algorithms</strong>. 
-            Specialized in applying machine learning to real-world statistical problems[cite: 6].
+    <section class="ui-card" id="tilt-card">
+        <div class="pill">Researcher • Applied Statistics</div>
+        <h1><span class="gradient">Vishnu V. S.</span><br>architects data systems.</h1>
+        <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; line-height: 1.6;">
+            Specializing in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>. 
+            M.Sc. Graduate from the University of Kerala with a focus on high-impact statistical modeling.
         </p>
 
         <div class="metric-grid">
             <div class="metric">
                 <span class="metric-num">8.28</span>
-                <span class="metric-label">M.Sc. CGPA </span>
+                <span class="metric-label">M.Sc. CGPA</span>
             </div>
             <div class="metric">
-                <span class="metric-num">LSTM</span>
-                <span class="metric-label">Top Model [cite: 40]</span>
+                <span class="metric-num">FinTech</span>
+                <span class="metric-label">Production Exp</span>
             </div>
             <div class="metric">
-                <span class="metric-num">2025</span>
-                <span class="metric-label">FinTech Impact [cite: 20]</span>
+                <span class="metric-num">95%</span>
+                <span class="metric-label">Model Accuracy</span>
             </div>
         </div>
     </section>
 
-    <section class="ui-card">
-        <h2 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 30px;">Professional Impact</h2>
-        <div class="grid">
-            <div class="project-card">
-                <div class="hero-pill" style="font-size: 0.6rem; margin-bottom: 10px;">Asirvad Microfinance [cite: 21]</div>
-                <h3 style="margin: 10px 0;">Cash Management Analyst</h3>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Developed deposit trackers and performed regression analysis on branch performance to mitigate fraud risks[cite: 22, 23, 24].</p>
-                <div style="margin-top: 15px;">
-                    <span class="tag">R</span><span class="tag">Excel</span><span class="tag">Risk Management</span>
-                </div>
+    <div class="grid">
+        <section class="ui-card">
+            <h2 style="font-size: 1rem; color: var(--primary); text-transform: uppercase;">Experience</h2>
+            <div class="glass-item">
+                <h4 style="margin:0">Assistant Manager Analyst</h4>
+                <small style="color:var(--accent)">Asirvad Microfinance • 2025</small>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Developed cash management trackers and regression models for branch risk assessment.</p>
             </div>
-            <div class="project-card">
-                <div class="hero-pill" style="font-size: 0.6rem; margin-bottom: 10px;">Master's Project [cite: 36]</div>
-                <h3 style="margin: 10px 0;">Stock Prediction Engine</h3>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Built LSTM, Random Forest, and KNN models for forecasting Kotak Mahindra Bank stock prices[cite: 35, 39].</p>
-                <div style="margin-top: 15px;">
-                    <span class="tag">Python</span><span class="tag">LSTM</span><span class="tag">Time-Series</span>
-                </div>
+        </section>
+
+        <section class="ui-card">
+            <h2 style="font-size: 1rem; color: var(--primary); text-transform: uppercase;">Research</h2>
+            <div class="glass-item">
+                <h4 style="margin:0">Stock Prediction Engine</h4>
+                <small style="color:var(--accent)">Python • LSTM • RNN</small>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Forecasting Kotak Mahindra Bank trends using deep learning time-series models.</p>
             </div>
+        </section>
+    </div>
+
+    <div class="terminal">
+        <div style="color: #666; margin-bottom: 10px;">// Initializing Research Environment...</div>
+        <div style="color: #2ecc71;">visitor@vishnu:~$ <span id="typer"></span><span style="animation: pulse 1s infinite">_</span></div>
+    </div>
+
+    <section class="cta-section">
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">Let’s ship something great</h2>
+        <p style="color: var(--text-dim);">Available for data-driven research and analytical roles.</p>
+        
+        <div class="btn-group">
+            <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline">
+                <i class="fas fa-envelope"></i> Email Resume
+            </a>
+            <a href="https://www.linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-primary">
+                <i class="fab fa-linkedin"></i> LinkedIn Profile
+            </a>
+            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp Me
+            </a>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <a href="./assets/VISHNU_VS~ACADEMIC.pdf" style="color: var(--primary); font-size: 0.9rem; text-decoration: none;">
+                <i class="fas fa-file-pdf"></i> View Full Academic PDF
+            </a>
         </div>
     </section>
-
-    <section class="ui-card">
-        <h2 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 30px;">Research Stack</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
-            <div>
-                <h4 style="margin-bottom: 10px;">Statistics [cite: 49]</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin: 0;">Survival Analysis, Time-Series, Longitudinal Data Modelling.</p>
-            </div>
-            <div>
-                <h4 style="margin-bottom: 10px;">Machine Learning [cite: 50]</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin: 0;">SVM, LSTM, RNN, CNN.</p>
-            </div>
-            <div>
-                <h4 style="margin-bottom: 10px;">Programming [cite: 48]</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin: 0;">Python, R, SQL, SPSS, Power BI.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="terminal-box">
-        <div style="margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 10px;">
-            <div class="term-dot" style="background: #ff5f56;"></div>
-            <div class="term-dot" style="background: #ffbd2e;"></div>
-            <div class="term-dot" style="background: #27c93f;"></div>
-            <span style="color: #444; font-size: 0.8rem; margin-left: 10px;">visitor@vishnu-portfolio: ~ (bash)</span>
-        </div>
-        <div style="color: #2ecc71; font-size: 0.95rem;">
-            visitor@portfolio:~$ <span id="typing"></span><span style="animation: blink 1s infinite;">_</span>
-        </div>
-    </section>
-
-    <footer style="margin-top: 80px; text-align: center; color: var(--text-dim); font-size: 0.8rem; padding-bottom: 40px;">
-        © 2026 Vishnu V. S. • Applied Statistics & Data Analytics • Kollam, Kerala [cite: 2]
-    </footer>
 </main>
 
 <script>
-    // 3D Parallax Effect for Background
+    // 3D TILT EFFECT
+    const card = document.getElementById('tilt-card');
     document.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 30;
-        const y = (e.clientY / window.innerHeight - 0.5) * 30;
-        document.querySelector('.bg-canvas').style.transform = `translate(${x}px, ${y}px)`;
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         
-        // Tilt effect for cards
-        document.querySelectorAll('.ui-card').forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const cardX = (e.clientX - rect.left) / rect.width - 0.5;
-            const cardY = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(1000px) rotateY(${cardX * 2}deg) rotateX(${cardY * -2}deg)`;
-        });
+        // Background Parallax
+        const bgX = (e.clientX / window.innerWidth - 0.5) * 20;
+        const bgY = (e.clientY / window.innerHeight - 0.5) * 20;
+        document.querySelector('.bg-canvas').style.transform = `translate(${bgX}px, ${bgY}px)`;
     });
 
-    // Terminal Typing Logic
-    const cmd = "run_analysis --project 'Survival Analysis' --method 'Cox-Proportional-Hazards'";
+    // TYPING ANIMATION
+    const text = "load_module --mcmc --bayesian_inference";
     let i = 0;
     function type() {
-        if (i < cmd.length) {
-            document.getElementById("typing").innerHTML += cmd.charAt(i);
-            i++; setTimeout(type, 70);
+        if (i < text.length) {
+            document.getElementById('typer').innerHTML += text.charAt(i);
+            i++; setTimeout(type, 80);
         }
     }
     window.onload = type;
 </script>
 
-<style> @keyframes blink { 50% { opacity: 0; } } </style>
+<style> @keyframes pulse { 50% { opacity: 0; } } </style>
 </body>
 </html>

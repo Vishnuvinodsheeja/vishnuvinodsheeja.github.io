@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vishnu V. S. | Statistician & Data Scientist</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #3498db;
             --accent: #2ecc71;
-            --bg-dark: #0a0c10;
-            --glass: rgba(255, 255, 255, 0.03);
+            --bg-dark: #05070a;
+            --glass: rgba(255, 255, 255, 0.02);
             --glass-border: rgba(255, 255, 255, 0.08);
             --text-main: #e2e8f0;
             --text-dim: #94a3b8;
@@ -22,200 +21,207 @@
             font-family: 'Inter', sans-serif; overflow-x: hidden; perspective: 1200px;
         }
 
-        .bg-canvas {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 50% 50%, #1a202c 0%, #0a0c10 100%);
-            z-index: -2;
+        /* Markov Chain Header Background */
+        .header-bg {
+            position: relative; width: 100%; height: 500px; background: #0a0c10;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
+        #markov-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        .ui-shell { max-width: 1000px; margin: 0 auto; padding: 0 20px 60px 20px; }
-
-        /* Markov Header Styling */
-        #markov-header {
-            position: relative; width: 100%; height: 550px; 
-            background-color: transparent; overflow: hidden; 
-            display: flex; align-items: center; justify-content: center;
-        }
+        .ui-shell { max-width: 1000px; margin: -100px auto 0; padding: 0 20px 60px; position: relative; z-index: 10; }
 
         .ui-card {
             background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 28px; padding: 45px; backdrop-filter: blur(20px);
-            margin-bottom: 30px; transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
+            border-radius: 28px; padding: 45px; backdrop-filter: blur(25px);
+            margin-bottom: 35px; transform-style: preserve-3d;
+            transition: transform 0.2s ease-out; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
-        h1 { font-size: 3.8rem; letter-spacing: -3px; margin: 0; font-weight: 900; }
+        h1 { font-size: 3.5rem; letter-spacing: -3px; margin: 0; font-weight: 900; }
         .gradient { background: linear-gradient(90deg, #3498db, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-tag { font-size: 0.75rem; text-transform: uppercase; color: var(--primary); font-weight: 700; letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--primary); margin-bottom: 20px; display: block; font-weight: 800; }
 
-        /* Skills Radar */
-        .radar-box { max-width: 450px; margin: 0 auto; }
+        /* Skill Pills */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-pill { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; }
 
-        /* Orbit Ring (Stay Upright) */
-        .orbit-box { height: 400px; position: relative; display: flex; align-items: center; justify-content: center; margin: 20px 0; }
-        .center-hub { z-index: 10; background: #0a0c10; padding: 20px; border-radius: 50%; border: 2px solid var(--primary); text-align: center; }
-        .ring { position: absolute; width: 340px; height: 340px; border: 1px dashed rgba(52, 152, 219, 0.3); border-radius: 50%; animation: rotate 30s linear infinite; }
-        .orbit-item { position: absolute; background: var(--glass); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; animation: counter-rotate 30s linear infinite; }
-        .pos1 { top: -20px; left: 50%; transform: translateX(-50%); }
-        .pos2 { bottom: -20px; left: 50%; transform: translateX(-50%); }
-        .pos3 { left: -60px; top: 50%; transform: translateY(-50%); }
-        .pos4 { right: -60px; top: 50%; transform: translateY(-50%); }
+        /* Counter-Rotating Orbit */
+        .orbit-wrapper { height: 400px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .orbit-center { z-index: 10; background: #0a0c10; padding: 25px; border-radius: 50%; border: 2px solid var(--primary); text-align: center; }
+        .orbit-ring {
+            position: absolute; width: 300px; height: 300px; border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 50%; animation: rotateCW 25s linear infinite;
+        }
+        .orbit-item {
+            position: absolute; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+            padding: 12px 18px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
+            animation: rotateCCW 25s linear infinite; /* Readable Text Fix */
+        }
+        .p1 { top: -20px; left: 50%; transform: translateX(-50%); }
+        .p2 { bottom: -20px; left: 50%; transform: translateX(-50%); }
+        .p3 { left: -60px; top: 50%; transform: translateY(-50%); }
+        .p4 { right: -60px; top: 50%; transform: translateY(-50%); }
 
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes counter-rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        @keyframes rotateCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotateCCW { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
-        /* Buttons */
-        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
-        .btn { padding: 15px 25px; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .btn-main { background: var(--primary); color: white; }
-        .btn-wa { background: #25d366; color: white; }
+        /* CTA Buttons */
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 40px; }
+        .btn { padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-blue { background: var(--primary); color: white; }
+        .btn-green { background: #25d366; color: white; }
         .btn-outline { border: 1px solid var(--glass-border); color: white; }
 
-        @media (max-width: 768px) { h1 { font-size: 2.5rem; } .orbit-box { transform: scale(0.6); } }
+        @media (max-width: 768px) { h1 { font-size: 2.2rem; } .orbit-wrapper { transform: scale(0.6); } }
     </style>
 </head>
 <body>
 
-<div class="bg-canvas"></div>
-
-<div id="markov-header">
-    <canvas id="markovCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
-    <div style="z-index: 10; text-align: center; pointer-events: none;">
-        <span style="background: rgba(52, 152, 219, 0.1); color: var(--primary); padding: 6px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">◯ Statistician & Data Scientist</span>
-        <h1>I am <span class="gradient">Vishnu V. S.</span></h1>
+<div class="header-bg">
+    <canvas id="markov-canvas"></canvas>
+    <div style="z-index: 5; text-align: center;">
+        <h1 style="color: white; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));">Vishnu V. S.</h1>
+        <p class="pill" style="background: var(--primary); color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px;">Statistician & Data Scientist</p>
     </div>
 </div>
 
 <main class="ui-shell">
     <section class="ui-card">
-        <span class="section-tag">Career Objective</span>
-        <p style="color: var(--text-dim); line-height: 1.7; font-size: 1.1rem;">
-            Highly motivated researcher with a strong background in **Applied Statistics and Data Analytics**[cite: 5]. 
-            I aim to Advance scalable **Bayesian inference** and **MCMC algorithms** while leveraging statistical and machine learning techniques to solve real-world problems[cite: 7, 50].
+        <span class="section-label">Objective</span>
+        <p style="font-size: 1.15rem; line-height: 1.7; color: var(--text-dim);">
+            I am a highly motivated researcher with a strong academic background in Applied Statistics and Data Analytics[cite: 5]. 
+            I aim to advance my research interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
         </p>
     </section>
 
     <section class="ui-card">
-        <span class="section-tag">Skills & Expertise Mapping</span>
-        <div class="radar-box">
-            <canvas id="skillRadar"></canvas>
+        <span class="section-label">Capabilities</span>
+        <div class="skills-grid">
+            <div class="skill-pill">Python & R [cite: 48]</div>
+            <div class="skill-pill">MCMC & Bayesian Inference [cite: 7, 49]</div>
+            <div class="skill-pill">Deep Learning (LSTM, RNN, CNN) [cite: 50]</div>
+            <div class="skill-pill">Survival Analysis [cite: 49]</div>
+            <div class="skill-pill">SQL & SPSS [cite: 48]</div>
         </div>
     </section>
 
     <section class="ui-card">
-        <span class="section-tag">Impact @ Asirvad Microfinance</span>
-        <div class="orbit-box">
-            <div class="center-hub">
-                <i class="fas fa-university" style="color: var(--primary); font-size: 1.5rem;"></i>
-                <div style="font-size: 0.6rem; font-weight: 800; margin-top: 5px;">CASH ANALYST</div>
+        <span class="section-label">Past Company Contributions</span>
+        <div class="orbit-wrapper">
+            <div class="orbit-center">
+                <i class="fas fa-university" style="font-size: 2rem; color: var(--primary);"></i>
+                <div style="font-size: 0.7rem; font-weight: 800; margin-top: 5px;">ASIRVAD MICROFINANCE</div>
             </div>
-            <div class="ring">
-                <div class="orbit-item pos1">Deposit Tracker Development</div>
-                <div class="orbit-item pos2">Regression Risk Models</div>
-                <div class="orbit-item pos3">Fraud Mitigation</div>
-                <div class="orbit-item pos4">Compliance Leadership</div>
+            <div class="orbit-ring">
+                <div class="orbit-item p1">Cash Deposit Tracking [cite: 22]</div>
+                <div class="orbit-item p2">Regression Analysis [cite: 23]</div>
+                <div class="orbit-item p3">Risk Mitigation [cite: 24]</div>
+                <div class="orbit-item p4">Branch Performance Trends [cite: 23]</div>
             </div>
         </div>
     </section>
 
     <section class="ui-card">
-        <span class="section-tag">About Me</span>
+        <span class="section-label">About Me</span>
         <p style="color: var(--text-dim); line-height: 1.8;">
-            I hold an **M.Sc. in Applied Statistics and Data Analytics** from the University of Kerala (CGPA: 8.28)[cite: 16]. 
-            I am a **Rajyapuraskar Scout** and an active volunteer with **Blood Donors Kerala**, bringing leadership and adaptability to every project[cite: 71, 77, 79, 51].
+            I hold an M.Sc. in Applied Statistics and Data Analytics from the University of Kerala (CGPA: 8.28)[cite: 16]. 
+            I am a <strong>Rajyapuraskar Scout Awardee</strong> [cite: 79] and a dedicated volunteer with Blood Donors Kerala[cite: 71].
         </p>
     </section>
 
     <section class="ui-card">
-        <span class="section-tag">Featured Works & Capabilities</span>
+        <span class="section-label">Selected Works</span>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="background: rgba(255,255,255,0.02); padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border);">
-                <h3>Stock Prediction Engine</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Built LSTM and Random Forest models for Kotak Mahindra Bank stock forecasting[cite: 35, 39].</p>
+            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h4>Stock Prediction</h4>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Built LSTM and Random Forest models to forecast market trends[cite: 39].</p>
             </div>
-            <div style="background: rgba(255,255,255,0.02); padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border);">
-                <h3>Survival Data Pipeline</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Implemented Cox Proportional Hazards modeling for clinical lung cancer survival[cite: 29, 33].</p>
+            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h4>Survival Analysis</h4>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Applied Cox Proportional Hazards to lung cancer clinical data[cite: 33].</p>
             </div>
         </div>
     </section>
 
-    <footer class="footer-cta" style="text-align: center; padding-top: 40px;">
-        <h2 style="font-size: 2.2rem; margin-bottom: 30px;">Let's Connect</h2>
+    <section style="text-align: center; padding: 60px 0;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Let's Connect</h2>
         <div class="btn-group">
-            <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email Resume</a>
-            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-main"><i class="fab fa-linkedin"></i> LinkedIn</a>
-            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Me</a>
+            <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email</a>
+            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-green"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         </div>
-        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-dim);">Kollam, Kerala • M.Sc. University of Kerala</p>
-    </footer>
+        <a href="./assets/VISHNU_VS~ACADEMIC.pdf" style="display: block; margin-top: 30px; color: var(--primary); text-decoration: none;">📄 Download Full Resume</a>
+    </section>
 </main>
 
 <script>
-    // 1. MARKOV CHAIN ANIMATION
-    const canvas = document.getElementById('markovCanvas');
+    // MARKOV CHAIN ANIMATION
+    const canvas = document.getElementById('markov-canvas');
     const ctx = canvas.getContext('2d');
     let nodes = [];
-    const states = ["MCMC", "Bayesian", "LSTM", "Survival", "Regression", "ANOVA"];
-    let currentNode = 0;
+    let particles = [];
 
-    function initMarkov() {
-        canvas.width = window.innerWidth;
-        canvas.height = 550;
-        nodes = [];
-        for (let i = 0; i < 6; i++) {
-            nodes.push({ x: Math.random() * (canvas.width - 200) + 100, y: Math.random() * 350 + 100, label: states[i] });
+    class Node {
+        constructor(x, y, label) {
+            this.x = x; this.y = y; this.label = label;
+        }
+        draw() {
+            ctx.fillStyle = '#3498db';
+            ctx.beginPath(); ctx.arc(this.x, this.y, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.font = '10px Inter'; ctx.fillText(this.label, this.x + 10, this.y + 5);
         }
     }
 
-    function drawMarkov() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = "rgba(52, 152, 219, 0.15)";
-        nodes.forEach((n, i) => {
-            nodes.forEach(m => { ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.stroke(); });
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, 35, 0, Math.PI * 2);
-            ctx.fillStyle = i === currentNode ? "#3498db" : "#0a0c10";
-            ctx.fill();
-            ctx.strokeStyle = "#3498db";
-            ctx.stroke();
-            ctx.fillStyle = "#fff";
-            ctx.font = "10px Inter";
-            ctx.textAlign = "center";
-            ctx.fillText(n.label, n.x, n.y + 5);
-        });
+    class Particle {
+        constructor(startNode, endNode) {
+            this.start = startNode; this.end = endNode; this.progress = 0;
+            this.speed = 0.005 + Math.random() * 0.01;
+        }
+        update() {
+            this.progress += this.speed;
+            if (this.progress >= 1) this.progress = 0;
+        }
+        draw() {
+            const x = this.start.x + (this.end.x - this.start.x) * this.progress;
+            const y = this.start.y + (this.end.y - this.start.y) * this.progress;
+            ctx.fillStyle = '#2ecc71';
+            ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill();
+        }
     }
 
-    setInterval(() => { currentNode = Math.floor(Math.random() * 6); drawMarkov(); }, 2000);
-    window.addEventListener('resize', initMarkov);
-    initMarkov(); drawMarkov();
+    function init() {
+        canvas.width = window.innerWidth; canvas.height = 500;
+        const labels = ['Bayesian', 'MCMC', 'LSTM', 'Statistics', 'R-Lang', 'Python', 'Markov'];
+        for(let i=0; i<15; i++) {
+            nodes.push(new Node(Math.random()*canvas.width, Math.random()*canvas.height, labels[i%labels.length]));
+        }
+        for(let i=0; i<25; i++) {
+            particles.push(new Particle(nodes[Math.floor(Math.random()*nodes.length)], nodes[Math.floor(Math.random()*nodes.length)]));
+        }
+    }
 
-    // 2. 3D TILT
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Draw connections
+        ctx.strokeStyle = 'rgba(52, 152, 219, 0.1)';
+        particles.forEach(p => {
+            ctx.beginPath(); ctx.moveTo(p.start.x, p.start.y); ctx.lineTo(p.end.x, p.end.y); ctx.stroke();
+            p.update(); p.draw();
+        });
+        nodes.forEach(n => n.draw());
+        requestAnimationFrame(animate);
+    }
+
+    init(); animate();
+
+    // 3D TILT
     document.addEventListener('mousemove', (e) => {
         const x = (window.innerWidth / 2 - e.pageX) / 40;
         const y = (window.innerHeight / 2 - e.pageY) / 40;
-        document.querySelectorAll('.ui-card').forEach(card => card.style.transform = `rotateY(${x}deg) rotateX(${y * -1}deg)`);
-    });
-
-    // 3. RADAR CHART
-
-    const rCtx = document.getElementById('skillRadar').getContext('2d');
-    new Chart(rCtx, {
-        type: 'radar',
-        data: {
-            labels: ['Bayesian Theory', 'MCMC/Simulation', 'Survival Analysis', 'Deep Learning', 'Data Visualization', 'Statistical Risk'],
-            datasets: [{
-                label: 'Proficiency',
-                data: [90, 85, 95, 80, 88, 92],
-                backgroundColor: 'rgba(52, 152, 219, 0.2)',
-                borderColor: '#3498db',
-                pointBackgroundColor: '#2ecc71'
-            }]
-        },
-        options: {
-            scales: { r: { grid: { color: 'rgba(255,255,255,0.1)' }, angleLines: { color: 'rgba(255,255,255,0.1)' }, ticks: { display: false }, pointLabels: { color: '#94a3b8' } } },
-            plugins: { legend: { display: false } }
-        }
+        document.querySelectorAll('.ui-card').forEach(card => {
+            card.style.transform = `rotateY(${x}deg) rotateX(${y * -1}deg)`;
+        });
     });
 </script>
 </body>

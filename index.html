@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vishnu V. S. | Statistician & Data Scientist</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
         :root {
             --primary: #3498db;
@@ -18,10 +19,10 @@
 
         body {
             margin: 0; background: var(--bg-dark); color: var(--text-main);
-            font-family: 'Inter', sans-serif; overflow-x: hidden; perspective: 1200px;
+            font-family: 'Inter', sans-serif; overflow-x: hidden;
         }
 
-        /* Markov Chain Header Background */
+        /* Markov Chain Header */
         .header-bg {
             position: relative; width: 100%; height: 500px; background: #0a0c10;
             display: flex; align-items: center; justify-content: center; overflow: hidden;
@@ -34,7 +35,8 @@
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 28px; padding: 45px; backdrop-filter: blur(25px);
             margin-bottom: 35px; transform-style: preserve-3d;
-            transition: transform 0.2s ease-out; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            opacity: 0; /* Initial state for Anime.js */
         }
 
         h1 { font-size: 3.5rem; letter-spacing: -3px; margin: 0; font-weight: 900; }
@@ -43,27 +45,27 @@
 
         /* Skill Pills */
         .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill-pill { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; }
+        .skill-pill { 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); 
+            padding: 8px 16px; border-radius: 100px; font-size: 0.85rem;
+            opacity: 0; /* Initial state for Anime.js */
+        }
 
         /* Counter-Rotating Orbit */
         .orbit-wrapper { height: 400px; position: relative; display: flex; align-items: center; justify-content: center; }
         .orbit-center { z-index: 10; background: #0a0c10; padding: 25px; border-radius: 50%; border: 2px solid var(--primary); text-align: center; }
         .orbit-ring {
             position: absolute; width: 300px; height: 300px; border: 1px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 50%; animation: rotateCW 25s linear infinite;
+            border-radius: 50%;
         }
         .orbit-item {
             position: absolute; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
             padding: 12px 18px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
-            animation: rotateCCW 25s linear infinite; /* Readable Text Fix */
         }
         .p1 { top: -20px; left: 50%; transform: translateX(-50%); }
         .p2 { bottom: -20px; left: 50%; transform: translateX(-50%); }
         .p3 { left: -60px; top: 50%; transform: translateY(-50%); }
         .p4 { right: -60px; top: 50%; transform: translateY(-50%); }
-
-        @keyframes rotateCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes rotateCCW { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
         /* CTA Buttons */
         .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 40px; }
@@ -89,8 +91,8 @@
     <section class="ui-card">
         <span class="section-label">Objective</span>
         <p style="font-size: 1.15rem; line-height: 1.7; color: var(--text-dim);">
-            I am a highly motivated researcher with a strong academic background in Applied Statistics and Data Analytics[cite: 5]. 
-            I aim to advance my research interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
+            Highly motivated researcher with a strong background in Applied Statistics and Data Analytics[cite: 5, 13]. 
+            I advance my research interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
         </p>
     </section>
 
@@ -98,10 +100,11 @@
         <span class="section-label">Capabilities</span>
         <div class="skills-grid">
             <div class="skill-pill">Python & R [cite: 48]</div>
-            <div class="skill-pill">MCMC & Bayesian Inference [cite: 7, 49]</div>
-            <div class="skill-pill">Deep Learning (LSTM, RNN, CNN) [cite: 50]</div>
+            <div class="skill-pill">MCMC & Bayesian [cite: 7, 49]</div>
+            <div class="skill-pill">LSTM / RNN / CNN [cite: 50]</div>
             <div class="skill-pill">Survival Analysis [cite: 49]</div>
             <div class="skill-pill">SQL & SPSS [cite: 48]</div>
+            <div class="skill-pill">Time-Series [cite: 49]</div>
         </div>
     </section>
 
@@ -110,13 +113,13 @@
         <div class="orbit-wrapper">
             <div class="orbit-center">
                 <i class="fas fa-university" style="font-size: 2rem; color: var(--primary);"></i>
-                <div style="font-size: 0.7rem; font-weight: 800; margin-top: 5px;">ASIRVAD MICROFINANCE</div>
+                <div style="font-size: 0.7rem; font-weight: 800; margin-top: 5px;">ASIRVAD MICROFINANCE [cite: 21]</div>
             </div>
             <div class="orbit-ring">
-                <div class="orbit-item p1">Cash Deposit Tracking [cite: 22]</div>
+                <div class="orbit-item p1">Cash Deposit Tracking </div>
                 <div class="orbit-item p2">Regression Analysis [cite: 23]</div>
                 <div class="orbit-item p3">Risk Mitigation [cite: 24]</div>
-                <div class="orbit-item p4">Branch Performance Trends [cite: 23]</div>
+                <div class="orbit-item p4">Efficiency Optimization </div>
             </div>
         </div>
     </section>
@@ -124,21 +127,21 @@
     <section class="ui-card">
         <span class="section-label">About Me</span>
         <p style="color: var(--text-dim); line-height: 1.8;">
-            I hold an M.Sc. in Applied Statistics and Data Analytics from the University of Kerala (CGPA: 8.28)[cite: 16]. 
-            I am a <strong>Rajyapuraskar Scout Awardee</strong> [cite: 79] and a dedicated volunteer with Blood Donors Kerala[cite: 71].
+            M.Sc. in Applied Statistics from the University of Kerala (CGPA: 8.28)[cite: 16]. 
+            Recipient of the <strong>Central Sector Scholarship</strong> [cite: 61] and a <strong>Rajyapuraskar Scout Awardee</strong>[cite: 79].
         </p>
     </section>
 
     <section class="ui-card">
-        <span class="section-label">Selected Works</span>
+        <span class="section-label">Selected Projects</span>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
-                <h4>Stock Prediction</h4>
-                <p style="font-size: 0.85rem; color: var(--text-dim);">Built LSTM and Random Forest models to forecast market trends[cite: 39].</p>
+            <div class="glass-project" style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h4>Stock Prediction [cite: 35]</h4>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Built LSTM and Random Forest models to forecast Kotak Mahindra Bank equity[cite: 39].</p>
             </div>
-            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
-                <h4>Survival Analysis</h4>
-                <p style="font-size: 0.85rem; color: var(--text-dim);">Applied Cox Proportional Hazards to lung cancer clinical data[cite: 33].</p>
+            <div class="glass-project" style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h4>Survival Analysis [cite: 29]</h4>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Applied Cox Proportional Hazards to model lung cancer clinical data[cite: 33].</p>
             </div>
         </div>
     </section>
@@ -146,25 +149,22 @@
     <section style="text-align: center; padding: 60px 0;">
         <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Let's Connect</h2>
         <div class="btn-group">
-            <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email</a>
-            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue"><i class="fab fa-linkedin"></i> LinkedIn</a>
-            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-green"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email [cite: 1]</a>
+            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue"><i class="fab fa-linkedin"></i> LinkedIn [cite: 3]</a>
+            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-green"><i class="fab fa-whatsapp"></i> WhatsApp [cite: 1]</a>
         </div>
-        <a href="./assets/VISHNU_VS~ACADEMIC.pdf" style="display: block; margin-top: 30px; color: var(--primary); text-decoration: none;">📄 Download Full Resume</a>
     </section>
 </main>
 
 <script>
-    // MARKOV CHAIN ANIMATION
+    // MARKOV CHAIN ANIMATION (Canvas Logic)
     const canvas = document.getElementById('markov-canvas');
     const ctx = canvas.getContext('2d');
     let nodes = [];
     let particles = [];
 
     class Node {
-        constructor(x, y, label) {
-            this.x = x; this.y = y; this.label = label;
-        }
+        constructor(x, y, label) { this.x = x; this.y = y; this.label = label; }
         draw() {
             ctx.fillStyle = '#3498db';
             ctx.beginPath(); ctx.arc(this.x, this.y, 5, 0, Math.PI * 2); ctx.fill();
@@ -174,14 +174,8 @@
     }
 
     class Particle {
-        constructor(startNode, endNode) {
-            this.start = startNode; this.end = endNode; this.progress = 0;
-            this.speed = 0.005 + Math.random() * 0.01;
-        }
-        update() {
-            this.progress += this.speed;
-            if (this.progress >= 1) this.progress = 0;
-        }
+        constructor(startNode, endNode) { this.start = startNode; this.end = endNode; this.progress = 0; this.speed = 0.005 + Math.random() * 0.01; }
+        update() { this.progress += this.speed; if (this.progress >= 1) this.progress = 0; }
         draw() {
             const x = this.start.x + (this.end.x - this.start.x) * this.progress;
             const y = this.start.y + (this.end.y - this.start.y) * this.progress;
@@ -192,30 +186,62 @@
 
     function init() {
         canvas.width = window.innerWidth; canvas.height = 500;
-        const labels = ['Bayesian', 'MCMC', 'LSTM', 'Statistics', 'R-Lang', 'Python', 'Markov'];
-        for(let i=0; i<15; i++) {
-            nodes.push(new Node(Math.random()*canvas.width, Math.random()*canvas.height, labels[i%labels.length]));
-        }
-        for(let i=0; i<25; i++) {
-            particles.push(new Particle(nodes[Math.floor(Math.random()*nodes.length)], nodes[Math.floor(Math.random()*nodes.length)]));
-        }
+        const labels = ['Bayesian', 'MCMC', 'LSTM', 'Statistics', 'R-Lang', 'Python', 'Survival'];
+        for(let i=0; i<15; i++) nodes.push(new Node(Math.random()*canvas.width, Math.random()*canvas.height, labels[i%labels.length]));
+        for(let i=0; i<25; i++) particles.push(new Particle(nodes[Math.floor(Math.random()*nodes.length)], nodes[Math.floor(Math.random()*nodes.length)]));
     }
 
-    function animate() {
+    function animateCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Draw connections
         ctx.strokeStyle = 'rgba(52, 152, 219, 0.1)';
         particles.forEach(p => {
             ctx.beginPath(); ctx.moveTo(p.start.x, p.start.y); ctx.lineTo(p.end.x, p.end.y); ctx.stroke();
             p.update(); p.draw();
         });
         nodes.forEach(n => n.draw());
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animateCanvas);
     }
 
-    init(); animate();
+    init(); animateCanvas();
 
-    // 3D TILT
+    // ANIME.JS: DASHBOARD ENTRANCE
+    anime({
+        targets: '.ui-card',
+        translateY: [100, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(200),
+        duration: 1000,
+        easing: 'easeOutQuad'
+    });
+
+    // ANIME.JS: STAGGERED SKILL PILLS
+    anime({
+        targets: '.skill-pill',
+        scale: [0, 1],
+        opacity: [0, 1],
+        delay: anime.stagger(100, {start: 1000}),
+        duration: 800,
+        easing: 'easeOutElastic(1, .8)'
+    });
+
+    // ANIME.JS: CONTINUOUS ORBIT ROTATION
+    anime({
+        targets: '.orbit-ring',
+        rotate: 360,
+        duration: 25000,
+        easing: 'linear',
+        loop: true
+    });
+
+    anime({
+        targets: '.orbit-item',
+        rotate: -360,
+        duration: 25000,
+        easing: 'linear',
+        loop: true
+    });
+
+    // 3D TILT ENGINE
     document.addEventListener('mousemove', (e) => {
         const x = (window.innerWidth / 2 - e.pageX) / 40;
         const y = (window.innerHeight / 2 - e.pageY) / 40;

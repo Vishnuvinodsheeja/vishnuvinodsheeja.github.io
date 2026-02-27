@@ -1,254 +1,827 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vishnu V. S. | Statistician & Data Scientist</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <style>
-        :root {
-            --primary: #3498db;
-            --accent: #2ecc71;
-            --bg-dark: #05070a;
-            --glass: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #e2e8f0;
-            --text-dim: #94a3b8;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vishnu V.S. — Statistician & Data Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@300;400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050508;
+  --surface:#0d0d14;
+  --border:rgba(255,255,255,0.06);
+  --text:#e8e6f0;
+  --dim:#6b6880;
+  --cyan:#00e5ff;
+  --violet:#7c3aed;
+  --pink:#f472b6;
+  --green:#10b981;
+  --gold:#fbbf24;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;overflow-x:hidden;cursor:none}
 
-        body {
-            margin: 0; background: var(--bg-dark); color: var(--text-main);
-            font-family: 'Inter', sans-serif; overflow-x: hidden;
-        }
+/* ── CURSOR ── */
+#cur{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(0,229,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
 
-        /* Markov Chain Header */
-        .header-bg {
-            position: relative; width: 100%; height: 500px; background: #0a0c10;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-        }
-        #markov-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+/* ── SCANLINES ── */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.03) 0px,rgba(0,0,0,0.03) 1px,transparent 1px,transparent 2px);pointer-events:none;z-index:1000}
 
-        .ui-shell { max-width: 1000px; margin: -100px auto 0; padding: 0 20px 60px; position: relative; z-index: 10; }
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:5000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+#loader-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,0.08)}
+#loader-bar{width:0%;height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan))}
+#loader-text{font-size:0.6rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase}
+#loader-pct{font-family:'Unbounded',sans-serif;font-size:3rem;font-weight:900;color:var(--text)}
 
-        .ui-card {
-            background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 28px; padding: 45px; backdrop-filter: blur(25px);
-            margin-bottom: 35px; transform-style: preserve-3d;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            opacity: 0; /* Initial state for Anime.js */
-        }
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;overflow:hidden}
+#markov-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+/* subtle vignette so text stays readable */
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 30% 50%,rgba(5,5,8,0.55) 0%,rgba(5,5,8,0.85) 100%);z-index:1;pointer-events:none}
 
-        h1 { font-size: 3.5rem; letter-spacing: -3px; margin: 0; font-weight: 900; }
-        .gradient { background: linear-gradient(90deg, #3498db, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--primary); margin-bottom: 20px; display: block; font-weight: 800; }
+.hero-eyebrow{font-size:0.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);margin-bottom:32px;opacity:0;position:relative;z-index:2}
+.hero-name{font-family:'Unbounded',sans-serif;font-size:clamp(48px,8vw,120px);font-weight:900;line-height:0.9;color:var(--text);margin-bottom:24px;position:relative;z-index:2}
+.hero-name .word{display:block;overflow:hidden}
+.hero-name .word span{display:inline-block;opacity:0;transform:translateY(100%)}
+.hero-name .highlight{color:transparent;-webkit-text-stroke:1px var(--cyan)}
 
-        /* Skill Pills */
-        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill-pill { 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); 
-            padding: 8px 16px; border-radius: 100px; font-size: 0.85rem;
-            opacity: 0; /* Initial state for Anime.js */
-        }
+/* GLITCH */
+.glitch{position:relative}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;font-family:'Unbounded',sans-serif;font-size:inherit;font-weight:900;line-height:0.9}
+.glitch::before{color:var(--pink);clip-path:inset(0 0 60% 0);animation:glitch1 3s infinite linear}
+.glitch::after{color:var(--cyan);clip-path:inset(40% 0 0 0);animation:glitch2 3s infinite linear}
+@keyframes glitch1{0%,90%,100%{transform:none;opacity:0}92%{transform:translate(-3px,1px);opacity:0.8}94%{transform:translate(3px,-1px);opacity:0.8}96%{transform:translate(-2px,2px);opacity:0.8}98%{transform:none;opacity:0}}
+@keyframes glitch2{0%,90%,100%{transform:none;opacity:0}93%{transform:translate(3px,-2px);opacity:0.7}95%{transform:translate(-3px,2px);opacity:0.7}97%{transform:translate(2px,-1px);opacity:0.7}99%{transform:none;opacity:0}}
 
-        /* Counter-Rotating Orbit */
-        .orbit-wrapper { height: 400px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .orbit-center { z-index: 10; background: #0a0c10; padding: 25px; border-radius: 50%; border: 2px solid var(--primary); text-align: center; }
-        .orbit-ring {
-            position: absolute; width: 300px; height: 300px; border: 1px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-        .orbit-item {
-            position: absolute; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
-            padding: 12px 18px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
-        }
-        .p1 { top: -20px; left: 50%; transform: translateX(-50%); }
-        .p2 { bottom: -20px; left: 50%; transform: translateX(-50%); }
-        .p3 { left: -60px; top: 50%; transform: translateY(-50%); }
-        .p4 { right: -60px; top: 50%; transform: translateY(-50%); }
+.hero-role{font-family:'Libre Baskerville',serif;font-style:italic;font-size:clamp(18px,2vw,28px);color:var(--dim);margin-bottom:48px;opacity:0;position:relative;z-index:2}
+.hero-cta-row{display:flex;gap:20px;flex-wrap:wrap;opacity:0;transform:translateY(20px);position:relative;z-index:2}
 
-        /* CTA Buttons */
-        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 40px; }
-        .btn { padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .btn-blue { background: var(--primary); color: white; }
-        .btn-green { background: #25d366; color: white; }
-        .btn-outline { border: 1px solid var(--glass-border); color: white; }
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--cyan);color:#000;font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all 0.3s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn-primary:hover{background:#fff;transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all 0.3s}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
 
-        @media (max-width: 768px) { h1 { font-size: 2.2rem; } .orbit-wrapper { transform: scale(0.6); } }
-    </style>
+.hero-stats{position:absolute;right:8vw;bottom:80px;display:flex;flex-direction:column;gap:20px;opacity:0;z-index:2}
+.h-stat{text-align:right}
+.h-stat-num{font-family:'Unbounded',sans-serif;font-size:2.2rem;font-weight:900;color:var(--cyan);line-height:1}
+.h-stat-label{font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-top:4px}
+
+/* scroll indicator */
+.scroll-ind{position:absolute;bottom:40px;left:8vw;display:flex;align-items:center;gap:12px;font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--dim);opacity:0;z-index:2}
+.scroll-line{width:40px;height:1px;background:var(--dim);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--cyan);animation:scrollAnim 2s ease-in-out infinite}
+@keyframes scrollAnim{to{left:100%}}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:400;padding:20px 8vw;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid transparent;transition:all 0.4s}
+nav.scrolled{background:rgba(5,5,8,0.9);border-bottom-color:var(--border);backdrop-filter:blur(20px)}
+.nav-logo{font-family:'Unbounded',sans-serif;font-size:0.9rem;font-weight:900;color:var(--text);text-decoration:none;letter-spacing:2px}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:var(--cyan)}
+
+/* ── SECTION BOILERPLATE ── */
+.section{padding:120px 8vw;position:relative}
+.section-tag{font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--cyan)}
+.section-title{font-family:'Unbounded',sans-serif;font-size:clamp(32px,4vw,60px);font-weight:900;line-height:1.05;color:var(--text);margin-bottom:64px}
+
+/* ── ABOUT ── */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-bio{font-family:'Libre Baskerville',serif;font-size:1.15rem;line-height:1.9;color:rgba(232,230,240,0.7);opacity:0;transform:translateY(30px)}
+.about-bio strong{color:var(--text)}
+.about-details{display:flex;flex-direction:column;gap:2px;opacity:0;transform:translateY(30px)}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border:1px solid var(--border);background:var(--surface);transition:all 0.3s;gap:20px}
+.detail-row:hover{border-color:rgba(0,229,255,0.3);background:rgba(0,229,255,0.03)}
+.detail-key{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.detail-val{font-family:'Libre Baskerville',serif;font-size:0.92rem;color:var(--text);text-align:right}
+
+/* ── SKILLS ── */
+.skills-bg{background:var(--surface)}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.skill-card{background:var(--bg);padding:36px 32px;position:relative;overflow:hidden;cursor:pointer;opacity:0;transform:scale(0.96)}
+.skill-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,58,237,0.08),transparent);opacity:0;transition:opacity 0.4s}
+.skill-card:hover::before{opacity:1}
+.skill-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width 0.5s ease}
+.skill-card:hover::after{width:100%}
+.sk-icon{font-size:1.6rem;margin-bottom:16px;display:block}
+.sk-cat{font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+.sk-name{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.3}
+.sk-bar{height:1px;background:rgba(255,255,255,0.06);margin-top:16px}
+.sk-fill{height:1px;width:0;background:linear-gradient(90deg,var(--violet),var(--cyan))}
+.sk-pct{font-size:0.55rem;letter-spacing:1px;color:var(--dim);margin-top:8px}
+
+/* ── EXPERIENCE ── */
+.exp-timeline{position:relative;padding-left:32px}
+.exp-timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(180deg,var(--cyan),transparent)}
+.exp-item{position:relative;padding-bottom:60px;opacity:0;transform:translateY(40px)}
+.exp-item::before{content:'';position:absolute;left:-36px;top:6px;width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:0 0 16px var(--cyan)}
+.exp-period{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.exp-co{font-family:'Unbounded',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.exp-title{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1rem;color:var(--dim);margin-bottom:20px}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.exp-list li{font-size:0.85rem;color:rgba(232,230,240,0.6);padding-left:18px;position:relative;line-height:1.7;opacity:0;transform:translateX(-12px)}
+.exp-list li::before{content:'//';position:absolute;left:0;color:var(--violet);font-size:0.7rem}
+
+/* ── PROJECTS ── */
+.projects-layout{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border)}
+.proj-card{background:var(--bg);padding:44px 40px;position:relative;overflow:hidden;opacity:0;transform:translateY(50px)}
+.proj-card-inner{position:relative;z-index:2}
+.proj-num{font-family:'Unbounded',sans-serif;font-size:4rem;font-weight:900;color:rgba(255,255,255,0.04);position:absolute;top:20px;right:30px;line-height:1;pointer-events:none}
+.proj-tag{font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.proj-tag::before{content:'';width:12px;height:1px;background:var(--cyan)}
+.proj-name{font-family:'Unbounded',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.3}
+.proj-desc{font-family:'Libre Baskerville',serif;font-size:0.95rem;color:rgba(232,230,240,0.55);line-height:1.8;margin-bottom:24px}
+.proj-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border);color:var(--dim);transition:all 0.3s}
+.proj-card:hover .chip{border-color:rgba(124,58,237,0.4);color:var(--violet)}
+/* hover beam */
+.proj-card::before{content:'';position:absolute;top:-100%;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:none;transition:top 0.4s}
+.proj-card:hover::before{top:0;animation:scanBeam 1.5s ease-in-out infinite}
+@keyframes scanBeam{0%{top:0}100%{top:100%}}
+
+/* ── AWARDS ── */
+.awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
+.award-card{background:var(--surface);padding:36px 32px;opacity:0;transform:scale(0.9);position:relative;overflow:hidden}
+.award-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(251,191,36,0.05),transparent 60%);opacity:0;transition:opacity 0.4s}
+.award-card:hover::before{opacity:1}
+.aw-icon{font-size:1.8rem;margin-bottom:20px;display:block;color:var(--gold)}
+.aw-title{font-family:'Unbounded',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.4}
+.aw-sub{font-size:0.75rem;color:var(--dim);line-height:1.6}
+
+/* ── ORBIT SECTION ── */
+.orbit-wrap{background:var(--surface);padding:100px 8vw;overflow:hidden;position:relative}
+.orbit-wrap::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,0.06),transparent 70%)}
+.orbit-scene{position:relative;height:420px;display:flex;align-items:center;justify-content:center}
+.orbit-hub{position:relative;z-index:10;text-align:center;padding:30px 36px;background:var(--bg);border:1px solid rgba(0,229,255,0.3);box-shadow:0 0 40px rgba(0,229,255,0.08),inset 0 0 40px rgba(0,229,255,0.02)}
+.orbit-hub-name{font-family:'Unbounded',sans-serif;font-size:0.8rem;font-weight:900;color:var(--cyan);letter-spacing:3px;margin-top:10px}
+.orbit-hub-sub{font-size:0.55rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+.orbit-ring{position:absolute;border-radius:50%;border:1px dashed rgba(0,229,255,0.1)}
+.ring-1{width:280px;height:280px}
+.ring-2{width:460px;height:460px}
+.o-item{position:absolute;background:rgba(5,5,8,0.95);border:1px solid rgba(0,229,255,0.15);padding:10px 16px;font-size:0.72rem;color:var(--text);white-space:nowrap;opacity:0;letter-spacing:0.5px}
+.o-item i{color:var(--cyan);margin-right:7px;font-size:0.7rem}
+
+/* ── CONTACT ── */
+.contact-wrap{background:var(--bg);padding:120px 8vw;position:relative;overflow:hidden}
+.contact-wrap::before{content:'CONTACT';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Unbounded',sans-serif;font-size:220px;font-weight:900;color:rgba(255,255,255,0.018);white-space:nowrap;pointer-events:none;letter-spacing:-10px}
+.contact-inner{max-width:700px;position:relative;z-index:2}
+.contact-heading{font-family:'Unbounded',sans-serif;font-size:clamp(36px,5vw,70px);font-weight:900;line-height:1;color:var(--text);margin-bottom:20px;opacity:0;transform:translateY(40px)}
+.contact-heading em{display:block;color:var(--cyan);font-style:normal}
+.contact-sub{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.1rem;color:var(--dim);margin-bottom:52px;opacity:0}
+.contact-links{display:flex;gap:12px;flex-wrap:wrap;opacity:0;transform:translateY(20px)}
+
+/* ── TICKER ── */
+.ticker{overflow:hidden;background:rgba(0,229,255,0.04);border-top:1px solid rgba(0,229,255,0.1);border-bottom:1px solid rgba(0,229,255,0.1);padding:12px 0}
+.ticker-inner{display:flex;white-space:nowrap;animation:tick 22s linear infinite}
+.tick-item{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:rgba(0,229,255,0.5);padding:0 36px}
+.tick-sep{color:var(--violet);margin:0 4px}
+
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── 3D TILT ── */
+.tilt-card{transform-style:preserve-3d;transition:transform 0.1s ease}
+
+/* scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--violet)}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero-stats{position:static;flex-direction:row;gap:30px;margin-top:48px;opacity:1!important}
+  .about-layout,.projects-layout,.awards-grid,.skills-grid{grid-template-columns:1fr}
+  nav .nav-links{display:none}
+  .orbit-scene{transform:scale(0.65)}
+  .section{padding:80px 6vw}
+  .hero{padding:100px 6vw 60px}
+}
+</style>
 </head>
 <body>
 
-<div class="header-bg">
-    <canvas id="markov-canvas"></canvas>
-    <div style="z-index: 5; text-align: center;">
-        <h1 style="color: white; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));">Vishnu V. S.</h1>
-        <p class="pill" style="background: var(--primary); color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px;">Statistician & Data Scientist</p>
-    </div>
+<!-- LOADER -->
+<div id="loader">
+  <div id="loader-pct">00</div>
+  <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+  <div id="loader-text">Initialising Portfolio</div>
 </div>
 
-<main class="ui-shell">
-    <section class="ui-card">
-        <span class="section-label">Objective</span>
-        <p style="font-size: 1.15rem; line-height: 1.7; color: var(--text-dim);">
-            Highly motivated researcher with a strong background in Applied Statistics and Data Analytics[cite: 5, 13]. 
-            I advance my research interests in <strong>Scalable Bayesian Inference</strong> and <strong>MCMC Algorithms</strong>.
-        </p>
-    </section>
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
-    <section class="ui-card">
-        <span class="section-label">Capabilities</span>
-        <div class="skills-grid">
-            <div class="skill-pill">Python & R [cite: 48]</div>
-            <div class="skill-pill">MCMC & Bayesian [cite: 7, 49]</div>
-            <div class="skill-pill">LSTM / RNN / CNN [cite: 50]</div>
-            <div class="skill-pill">Survival Analysis [cite: 49]</div>
-            <div class="skill-pill">SQL & SPSS [cite: 48]</div>
-            <div class="skill-pill">Time-Series [cite: 49]</div>
-        </div>
-    </section>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">V<span>.</span>S</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <section class="ui-card">
-        <span class="section-label">Past Company Contributions</span>
-        <div class="orbit-wrapper">
-            <div class="orbit-center">
-                <i class="fas fa-university" style="font-size: 2rem; color: var(--primary);"></i>
-                <div style="font-size: 0.7rem; font-weight: 800; margin-top: 5px;">ASIRVAD MICROFINANCE [cite: 21]</div>
-            </div>
-            <div class="orbit-ring">
-                <div class="orbit-item p1">Cash Deposit Tracking </div>
-                <div class="orbit-item p2">Regression Analysis [cite: 23]</div>
-                <div class="orbit-item p3">Risk Mitigation [cite: 24]</div>
-                <div class="orbit-item p4">Efficiency Optimization </div>
-            </div>
-        </div>
-    </section>
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="markov-bg"></canvas>
+  <p class="hero-eyebrow">// Statistician & Data Scientist</p>
+  <h1 class="hero-name">
+    <span class="word" id="w1"></span>
+    <span class="word glitch highlight" id="w2" data-text="V. S."></span>
+  </h1>
+  <p class="hero-role">Researcher in Scalable Bayesian Inference &amp; MCMC Algorithms</p>
+  <div class="hero-cta-row">
+    <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn-primary"><i class="fas fa-envelope"></i> Get in Touch</a>
+    <a href="#projects" class="btn-ghost">View Work <i class="fas fa-arrow-down"></i></a>
+  </div>
+  <div class="hero-stats" id="heroStats">
+    <div class="h-stat"><div class="h-stat-num" id="hsn1">0</div><div class="h-stat-label">CGPA M.Sc.</div></div>
+    <div class="h-stat"><div class="h-stat-num" id="hsn2">0</div><div class="h-stat-label">Projects</div></div>
+    <div class="h-stat"><div class="h-stat-num" id="hsn3">0</div><div class="h-stat-label">Skills</div></div>
+  </div>
+  <div class="scroll-ind"><div class="scroll-line"></div>Scroll to explore</div>
+</section>
 
-    <section class="ui-card">
-        <span class="section-label">About Me</span>
-        <p style="color: var(--text-dim); line-height: 1.8;">
-            M.Sc. in Applied Statistics from the University of Kerala (CGPA: 8.28)[cite: 16]. 
-            Recipient of the <strong>Central Sector Scholarship</strong> [cite: 61] and a <strong>Rajyapuraskar Scout Awardee</strong>[cite: 79].
-        </p>
-    </section>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="tick-item">Bayesian Inference<span class="tick-sep">◆</span></span>
+    <span class="tick-item">MCMC Algorithms<span class="tick-sep">◆</span></span>
+    <span class="tick-item">LSTM · RNN · CNN<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Survival Analysis<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Time-Series<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Python &amp; R<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Cox Hazard Models<span class="tick-sep">◆</span></span>
+    <span class="tick-item">SQL · SPSS<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Bayesian Inference<span class="tick-sep">◆</span></span>
+    <span class="tick-item">MCMC Algorithms<span class="tick-sep">◆</span></span>
+    <span class="tick-item">LSTM · RNN · CNN<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Survival Analysis<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Time-Series<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Python &amp; R<span class="tick-sep">◆</span></span>
+    <span class="tick-item">Cox Hazard Models<span class="tick-sep">◆</span></span>
+    <span class="tick-item">SQL · SPSS<span class="tick-sep">◆</span></span>
+  </div>
+</div>
 
-    <section class="ui-card">
-        <span class="section-label">Selected Projects</span>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div class="glass-project" style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
-                <h4>Stock Prediction [cite: 35]</h4>
-                <p style="font-size: 0.85rem; color: var(--text-dim);">Built LSTM and Random Forest models to forecast Kotak Mahindra Bank equity[cite: 39].</p>
-            </div>
-            <div class="glass-project" style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border);">
-                <h4>Survival Analysis [cite: 29]</h4>
-                <p style="font-size: 0.85rem; color: var(--text-dim);">Applied Cox Proportional Hazards to model lung cancer clinical data[cite: 33].</p>
-            </div>
-        </div>
-    </section>
+<!-- ABOUT -->
+<section class="section" id="about">
+  <p class="section-tag">01 / About</p>
+  <h2 class="section-title">Who I Am</h2>
+  <div class="about-layout">
+    <div class="about-bio" id="aboutBio">
+      I'm a statistician with a profound fascination for the <strong>mathematics of uncertainty</strong>. My research sits at the convergence of classical statistical theory and modern computational methods — specifically where Bayesian reasoning meets the challenge of <strong>scalable inference</strong> in high-dimensional spaces.
+      <br><br>
+      I hold an M.Sc. in Applied Statistics from the University of Kerala (CGPA: 8.28), and I approach every problem with the same conviction: that rigorous methods and creative intuition are not opposites — they're complements.
+    </div>
+    <div class="about-details" id="aboutDetails">
+      <div class="detail-row"><span class="detail-key">Degree</span><span class="detail-val">M.Sc. Applied Statistics</span></div>
+      <div class="detail-row"><span class="detail-key">University</span><span class="detail-val">University of Kerala</span></div>
+      <div class="detail-row"><span class="detail-key">CGPA</span><span class="detail-val">8.28 / 10</span></div>
+      <div class="detail-row"><span class="detail-key">Research Focus</span><span class="detail-val">Bayesian Inference · MCMC</span></div>
+      <div class="detail-row"><span class="detail-key">Location</span><span class="detail-val">Kerala, India</span></div>
+      <div class="detail-row"><span class="detail-key">Status</span><span class="detail-val" style="color:var(--green)">● Open to Opportunities</span></div>
+    </div>
+  </div>
+</section>
 
-    <section style="text-align: center; padding: 60px 0;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Let's Connect</h2>
-        <div class="btn-group">
-            <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email [cite: 1]</a>
-            <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn btn-blue"><i class="fab fa-linkedin"></i> LinkedIn [cite: 3]</a>
-            <a href="https://wa.me/919446338988" target="_blank" class="btn btn-green"><i class="fab fa-whatsapp"></i> WhatsApp [cite: 1]</a>
-        </div>
-    </section>
-</main>
+<!-- SKILLS -->
+<section class="section skills-bg" id="skills">
+  <p class="section-tag">02 / Capabilities</p>
+  <h2 class="section-title">Technical Arsenal</h2>
+  <div class="skills-grid" id="skillsGrid">
+    <div class="skill-card tilt-card"><span class="sk-icon">🎲</span><div class="sk-cat">Statistical Methods</div><div class="sk-name">Bayesian &amp; MCMC</div><div class="sk-bar"><div class="sk-fill" data-w="95"></div></div><div class="sk-pct">95%</div></div>
+    <div class="skill-card tilt-card"><span class="sk-icon">🧠</span><div class="sk-cat">Deep Learning</div><div class="sk-name">LSTM / RNN / CNN</div><div class="sk-bar"><div class="sk-fill" data-w="85"></div></div><div class="sk-pct">85%</div></div>
+    <div class="skill-card tilt-card"><span class="sk-icon">📈</span><div class="sk-cat">Survival Modeling</div><div class="sk-name">Cox Hazard Models</div><div class="sk-bar"><div class="sk-fill" data-w="90"></div></div><div class="sk-pct">90%</div></div>
+    <div class="skill-card tilt-card"><span class="sk-icon">🐍</span><div class="sk-cat">Programming</div><div class="sk-name">Python &amp; R</div><div class="sk-bar"><div class="sk-fill" data-w="92"></div></div><div class="sk-pct">92%</div></div>
+    <div class="skill-card tilt-card"><span class="sk-icon">⏱</span><div class="sk-cat">Forecasting</div><div class="sk-name">Time-Series Analysis</div><div class="sk-bar"><div class="sk-fill" data-w="88"></div></div><div class="sk-pct">88%</div></div>
+    <div class="skill-card tilt-card"><span class="sk-icon">🗄</span><div class="sk-cat">Data Management</div><div class="sk-name">SQL &amp; SPSS</div><div class="sk-bar"><div class="sk-fill" data-w="80"></div></div><div class="sk-pct">80%</div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <p class="section-tag">03 / Experience</p>
+  <h2 class="section-title">Where I've Worked</h2>
+  <div class="exp-timeline">
+    <div class="exp-item" id="expItem">
+      <div class="exp-period">2023 — Internship</div>
+      <div class="exp-co">Asirvad Microfinance</div>
+      <div class="exp-title">Data Analytics Intern</div>
+      <ul class="exp-list" id="expList">
+        <li>Designed and maintained cash deposit tracking systems to improve financial record accuracy across branches.</li>
+        <li>Applied regression analysis to identify key drivers of microfinance loan repayment and default behavior.</li>
+        <li>Built risk mitigation frameworks using predictive models for borrower default probabilities.</li>
+        <li>Optimized operational workflows, contributing measurable efficiency improvements across departments.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section" id="projects" style="background:var(--surface)">
+  <p class="section-tag">04 / Projects</p>
+  <h2 class="section-title">Selected Work</h2>
+  <div class="projects-layout" id="projGrid">
+    <div class="proj-card tilt-card">
+      <div class="proj-num">01</div>
+      <div class="proj-card-inner">
+        <div class="proj-tag">Time-Series · Deep Learning</div>
+        <div class="proj-name">Equity Price Prediction</div>
+        <p class="proj-desc">Built and benchmarked LSTM and Random Forest models to forecast Kotak Mahindra Bank stock prices. Engineered features from rolling statistics, momentum indicators, and volume signals.</p>
+        <div class="proj-chips"><span class="chip">LSTM</span><span class="chip">Random Forest</span><span class="chip">Python</span><span class="chip">Pandas</span></div>
+      </div>
+    </div>
+    <div class="proj-card tilt-card">
+      <div class="proj-num">02</div>
+      <div class="proj-card-inner">
+        <div class="proj-tag">Clinical Data · Statistics</div>
+        <div class="proj-name">Lung Cancer Survival Analysis</div>
+        <p class="proj-desc">Applied Cox Proportional Hazards and Kaplan-Meier estimators to clinical lung cancer datasets, modeling patient survival curves and quantifying covariate effects on time-to-event outcomes.</p>
+        <div class="proj-chips"><span class="chip">Cox PH</span><span class="chip">Kaplan-Meier</span><span class="chip">R</span><span class="chip">Survival</span></div>
+      </div>
+    </div>
+    <div class="proj-card tilt-card">
+      <div class="proj-num">03</div>
+      <div class="proj-card-inner">
+        <div class="proj-tag">Bayesian Methods · Research</div>
+        <div class="proj-name">Scalable MCMC Research</div>
+        <p class="proj-desc">Ongoing investigation into computationally efficient MCMC samplers for high-dimensional posterior distributions, exploring variance reduction techniques and parallelisation strategies.</p>
+        <div class="proj-chips"><span class="chip">MCMC</span><span class="chip">Bayesian</span><span class="chip">Python</span><span class="chip">R</span></div>
+      </div>
+    </div>
+    <div class="proj-card tilt-card">
+      <div class="proj-num">04</div>
+      <div class="proj-card-inner">
+        <div class="proj-tag">Finance · Risk Modeling</div>
+        <div class="proj-name">Microfinance Risk Engine</div>
+        <p class="proj-desc">Regression-driven default prediction system for microfinance borrower risk assessment. Deployed during internship at Asirvad to support loan underwriting decisions.</p>
+        <div class="proj-chips"><span class="chip">Regression</span><span class="chip">SQL</span><span class="chip">Risk Analysis</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORBIT / CONTRIBUTIONS -->
+<div class="orbit-wrap" id="orbitSec">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="section-tag" style="margin-bottom:16px">05 / Industry Work</p>
+    <h2 class="section-title" style="margin-bottom:0" id="orbitTitle">Asirvad Microfinance<br><span style="color:var(--cyan)">Contributions</span></h2>
+  </div>
+  <div class="orbit-scene" id="orbitScene">
+    <div class="orbit-ring ring-1"></div>
+    <div class="orbit-ring ring-2"></div>
+    <div class="orbit-hub">
+      <i class="fas fa-university" style="font-size:1.8rem;color:var(--cyan)"></i>
+      <div class="orbit-hub-name">ASIRVAD</div>
+      <div class="orbit-hub-sub">Microfinance</div>
+    </div>
+    <div class="o-item" id="oi1"><i class="fas fa-chart-bar"></i>Regression Analysis</div>
+    <div class="o-item" id="oi2"><i class="fas fa-shield-alt"></i>Risk Mitigation</div>
+    <div class="o-item" id="oi3"><i class="fas fa-coins"></i>Cash Tracking</div>
+    <div class="o-item" id="oi4"><i class="fas fa-bolt"></i>Efficiency Gains</div>
+    <div class="o-item" id="oi5"><i class="fas fa-database"></i>Data Pipelines</div>
+    <div class="o-item" id="oi6"><i class="fas fa-brain"></i>Predictive Models</div>
+  </div>
+</div>
+
+<!-- AWARDS -->
+<section class="section" id="awards">
+  <p class="section-tag">06 / Recognition</p>
+  <h2 class="section-title">Achievements</h2>
+  <div class="awards-grid" id="awardsGrid">
+    <div class="award-card tilt-card"><span class="aw-icon">🏅</span><div class="aw-title">Central Sector Scholarship</div><div class="aw-sub">Government of India — Merit-based national scholarship awarded to top-performing students.</div></div>
+    <div class="award-card tilt-card"><span class="aw-icon">🏆</span><div class="aw-title">Rajyapuraskar Scout Awardee</div><div class="aw-sub">State-level recognition for excellence in scouting, leadership, and community service.</div></div>
+    <div class="award-card tilt-card"><span class="aw-icon">🎓</span><div class="aw-title">M.Sc. Applied Statistics</div><div class="aw-sub">University of Kerala — Graduated with CGPA 8.28/10, specialising in statistical inference.</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-wrap" id="contact">
+  <div class="contact-inner">
+    <p class="section-tag" style="margin-bottom:24px">07 / Contact</p>
+    <h2 class="contact-heading" id="ctitle">Let's<em>Work Together.</em></h2>
+    <p class="contact-sub" id="csub">Open to research collaborations, data science roles, and genuinely interesting problems.</p>
+    <div class="contact-links" id="clinks">
+      <a href="mailto:Gvinodsvishnu37@gmail.com" class="btn-primary"><i class="fas fa-envelope"></i> Email</a>
+      <a href="https://linkedin.com/in/vishnu-v-s-61616" target="_blank" class="btn-ghost"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://wa.me/919446338988" target="_blank" class="btn-ghost" style="border-color:rgba(37,211,102,0.3);color:#25d366"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+  </div>
+</section>
 
 <script>
-    // MARKOV CHAIN ANIMATION (Canvas Logic)
-    const canvas = document.getElementById('markov-canvas');
-    const ctx = canvas.getContext('2d');
-    let nodes = [];
-    let particles = [];
+// ════ MARKOV CHAIN BACKGROUND ════
+(function(){
+  const cv  = document.getElementById('markov-bg');
+  const ctx = cv.getContext('2d');
 
-    class Node {
-        constructor(x, y, label) { this.x = x; this.y = y; this.label = label; }
-        draw() {
-            ctx.fillStyle = '#3498db';
-            ctx.beginPath(); ctx.arc(this.x, this.y, 5, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
-            ctx.font = '10px Inter'; ctx.fillText(this.label, this.x + 10, this.y + 5);
-        }
+  // ── resize ──
+  function resize(){ cv.width = cv.offsetWidth; cv.height = cv.offsetHeight; placeNodes(); }
+
+  // ── State node definitions (relative positions, adjusted on resize) ──
+  const STATE_DEFS = [
+    { label:'S₀', sublabel:'Start',    rx:0.12, ry:0.20 },
+    { label:'S₁', sublabel:'π(θ|x)',   rx:0.32, ry:0.12 },
+    { label:'S₂', sublabel:'Proposal', rx:0.58, ry:0.18 },
+    { label:'S₃', sublabel:'Accept',   rx:0.80, ry:0.30 },
+    { label:'S₄', sublabel:'Reject',   rx:0.72, ry:0.68 },
+    { label:'S₅', sublabel:'P(X|θ)',   rx:0.40, ry:0.72 },
+    { label:'S₆', sublabel:'Converge', rx:0.18, ry:0.58 },
+  ];
+
+  // ── Edge definitions: [from, to, probability label] ──
+  const EDGE_DEFS = [
+    [0,1,'0.7'], [0,6,'0.3'],
+    [1,2,'0.8'], [1,0,'0.2'],
+    [2,3,'0.6'], [2,4,'0.4'],
+    [3,5,'0.5'], [3,4,'0.5'],
+    [4,5,'0.9'], [4,6,'0.1'],
+    [5,6,'0.7'], [5,1,'0.3'],
+    [6,0,'0.4'], [6,1,'0.6'],
+  ];
+
+  let nodes = [];
+  let edges = [];
+  let walkers = []; // particles travelling along edges
+
+  // ── Build node objects ──
+  function placeNodes(){
+    nodes = STATE_DEFS.map(d => ({
+      ...d,
+      x: d.rx * cv.width,
+      y: d.ry * cv.height,
+      r: Math.max(22, Math.min(30, cv.width * 0.025)),
+      pulse: Math.random() * Math.PI * 2,   // phase offset for glow pulse
+      glowT: 0,
+    }));
+    edges = EDGE_DEFS.map(([fi, ti, prob]) => {
+      const f = nodes[fi], t = nodes[ti];
+      return { fi, ti, prob,
+        // control point for curved arc (perpendicular offset)
+        cx: (f.x+t.x)/2 + (t.y-f.y)*0.25,
+        cy: (f.y+t.y)/2 - (t.x-f.x)*0.25,
+      };
+    });
+    // seed walkers
+    walkers = Array.from({length:18},()=>spawnWalker());
+  }
+
+  function spawnWalker(){
+    const e = edges[Math.floor(Math.random()*edges.length)];
+    return { edge:e, t:Math.random(), speed: 0.003 + Math.random()*0.005,
+             alpha: 0.6+Math.random()*0.4, r: 2+Math.random()*2 };
+  }
+
+  // ── Point on quadratic bezier ──
+  function bezierPt(e, t){
+    const f = nodes[e.fi], to = nodes[e.ti];
+    const mt=1-t;
+    return {
+      x: mt*mt*f.x + 2*mt*t*e.cx + t*t*to.x,
+      y: mt*mt*f.y + 2*mt*t*e.cy + t*t*to.y,
+    };
+  }
+
+  // Tangent direction at t (for arrowhead)
+  function bezierTangent(e, t){
+    const f=nodes[e.fi],to=nodes[e.ti];
+    const mt=1-t;
+    const dx=2*(mt*(e.cx-f.x)+t*(to.x-e.cx));
+    const dy=2*(mt*(e.cy-f.y)+t*(to.y-e.cy));
+    const len=Math.hypot(dx,dy)||1;
+    return {dx:dx/len, dy:dy/len};
+  }
+
+  // ── Draw arrow head at tip ──
+  function drawArrow(e){
+    const t = 0.88;
+    const {x,y} = bezierPt(e,t);
+    const {dx,dy} = bezierTangent(e,t);
+    const sz = 9;
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(Math.atan2(dy,dx));
+    ctx.beginPath();
+    ctx.moveTo(sz,0);
+    ctx.lineTo(-sz*0.6, sz*0.45);
+    ctx.lineTo(-sz*0.6,-sz*0.45);
+    ctx.closePath();
+    ctx.fillStyle='rgba(0,229,255,0.55)';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // ── Main draw loop ──
+  let raf;
+  function draw(ts){
+    raf = requestAnimationFrame(draw);
+    ctx.clearRect(0,0,cv.width,cv.height);
+
+    const T = ts * 0.001; // seconds
+
+    // ── Draw edges ──
+    edges.forEach(e=>{
+      const f=nodes[e.fi], t=nodes[e.ti];
+      ctx.beginPath();
+      ctx.moveTo(f.x,f.y);
+      ctx.quadraticCurveTo(e.cx,e.cy,t.x,t.y);
+      ctx.strokeStyle='rgba(0,229,255,0.10)';
+      ctx.lineWidth=1.2;
+      ctx.stroke();
+
+      // probability label at midpoint (t=0.5)
+      const mid = bezierPt(e,0.5);
+      ctx.save();
+      ctx.font='bold 10px Space Mono, monospace';
+      ctx.fillStyle='rgba(0,229,255,0.35)';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(e.prob, mid.x, mid.y);
+      ctx.restore();
+
+      drawArrow(e);
+    });
+
+    // ── Draw glow halos ──
+    nodes.forEach((n,i)=>{
+      const g = (Math.sin(T*1.4 + n.pulse)*0.5+0.5); // 0-1
+      const grad = ctx.createRadialGradient(n.x,n.y,n.r*0.5, n.x,n.y,n.r*2.8);
+      grad.addColorStop(0, `rgba(0,229,255,${0.12*g})`);
+      grad.addColorStop(0.5,`rgba(124,58,237,${0.07*g})`);
+      grad.addColorStop(1,  'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r*2.8,0,Math.PI*2);
+      ctx.fillStyle=grad;
+      ctx.fill();
+    });
+
+    // ── Draw node rings ──
+    nodes.forEach((n,i)=>{
+      const pulse = (Math.sin(T*1.4+n.pulse)*0.5+0.5);
+
+      // outer ring pulse
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r+4+pulse*6,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(0,229,255,${0.08+pulse*0.14})`;
+      ctx.lineWidth=1;
+      ctx.stroke();
+
+      // node circle fill
+      const fill = ctx.createRadialGradient(n.x-n.r*0.3,n.y-n.r*0.3,1,n.x,n.y,n.r);
+      fill.addColorStop(0,'rgba(30,30,50,0.95)');
+      fill.addColorStop(1,'rgba(10,10,20,0.95)');
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=fill;
+      ctx.fill();
+      ctx.strokeStyle=`rgba(0,229,255,${0.35+pulse*0.4})`;
+      ctx.lineWidth=1.5;
+      ctx.stroke();
+
+      // state label
+      ctx.save();
+      ctx.font=`bold ${n.r*0.72}px Unbounded, sans-serif`;
+      ctx.fillStyle=`rgba(0,229,255,${0.7+pulse*0.3})`;
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(n.label,n.x,n.y);
+      ctx.restore();
+
+      // sublabel below node
+      ctx.save();
+      ctx.font=`9px Space Mono, monospace`;
+      ctx.fillStyle=`rgba(107,104,128,${0.55+pulse*0.25})`;
+      ctx.textAlign='center';
+      ctx.fillText(n.sublabel,n.x,n.y+n.r+12);
+      ctx.restore();
+    });
+
+    // ── Draw & update walkers (particles on edges) ──
+    walkers.forEach((w,i)=>{
+      w.t += w.speed;
+      if(w.t >= 1){
+        // on arrival at target, pick next edge from that node
+        const arrNode = w.edge.ti;
+        const next = edges.filter(e=>e.fi===arrNode);
+        w.edge = next.length ? next[Math.floor(Math.random()*next.length)] : edges[Math.floor(Math.random()*edges.length)];
+        w.t = 0;
+        w.speed = 0.003+Math.random()*0.005;
+        // flash the node
+        nodes[arrNode].glowT = 1.0;
+      }
+
+      const {x,y} = bezierPt(w.edge, w.t);
+      // glow trail
+      const grad = ctx.createRadialGradient(x,y,0,x,y,w.r*4);
+      grad.addColorStop(0,`rgba(0,229,255,${w.alpha})`);
+      grad.addColorStop(0.4,`rgba(124,58,237,${w.alpha*0.5})`);
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(x,y,w.r*4,0,Math.PI*2);
+      ctx.fillStyle=grad;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(x,y,w.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,229,255,${w.alpha})`;
+      ctx.fill();
+    });
+
+    // ── Node arrival flash ──
+    nodes.forEach(n=>{
+      if(n.glowT>0){
+        ctx.beginPath();
+        ctx.arc(n.x,n.y,n.r+n.glowT*20,0,Math.PI*2);
+        ctx.strokeStyle=`rgba(0,229,255,${n.glowT*0.6})`;
+        ctx.lineWidth=2;
+        ctx.stroke();
+        n.glowT = Math.max(0, n.glowT-0.04);
+      }
+    });
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
+})();
+// ════ END MARKOV ════
+
+
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=-200,my=-200,rx=-200,ry=-200;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.skill-card,.proj-card,.award-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>anime({targets:cur,width:20,height:20,backgroundColor:'#7c3aed',duration:200,easing:'easeOutQuad'}));
+  el.addEventListener('mouseleave',()=>anime({targets:cur,width:8,height:8,backgroundColor:'#00e5ff',duration:200,easing:'easeOutQuad'}));
+});
+
+// ════ LOADER ════
+const pctEl=document.getElementById('loader-pct'),barEl=document.getElementById('loader-bar');
+const loadObj={val:0};
+anime({
+  targets:loadObj,val:100,duration:1800,easing:'easeInOutQuart',
+  update(){ pctEl.textContent=String(Math.round(loadObj.val)).padStart(2,'0'); barEl.style.width=loadObj.val+'%'; },
+  complete(){
+    anime({targets:'#loader',opacity:[1,0],duration:600,delay:200,easing:'easeInQuad',complete(){document.getElementById('loader').style.display='none';startHero();}});
+  }
+});
+
+// ════ HERO ENTRANCE ════
+function buildLetters(id,text,accentClass=''){
+  const el=document.getElementById(id);
+  el.innerHTML=text.split('').map(ch=>`<span class="${accentClass}" style="display:inline-block;opacity:0;transform:translateY(80%)">${ch}</span>`).join('');
+}
+function startHero(){
+  buildLetters('w1','Vishnu');
+  buildLetters('w2','V. S.','accent');
+
+  anime.timeline({easing:'easeOutExpo'})
+    .add({targets:'.hero-eyebrow',translateY:[20,0],opacity:[0,1],duration:700})
+    .add({targets:'#w1 span',translateY:['80%',0],opacity:[0,1],delay:anime.stagger(60),duration:800},'-=400')
+    .add({targets:'#w2 span',translateY:['80%',0],opacity:[0,1],delay:anime.stagger(60),duration:800},'-=600')
+    .add({targets:'.hero-role',translateX:[-20,0],opacity:[0,1],duration:600},'-=300')
+    .add({targets:'.hero-cta-row',translateY:[20,0],opacity:[0,1],duration:600},'-=300')
+    .add({targets:'.scroll-ind',opacity:[0,1],duration:500},'-=200');
+
+  // stats with counters
+  setTimeout(()=>{
+    anime({targets:'#heroStats',opacity:[0,1],translateY:[20,0],duration:700,easing:'easeOutQuad'});
+    [['hsn1',8.28,2],['hsn2',4,0],['hsn3',6,0]].forEach(([id,t,d])=>{
+      const obj={v:0},el=document.getElementById(id);
+      anime({targets:obj,v:t,duration:1600,easing:'easeOutExpo',update(){el.textContent=d>0?obj.v.toFixed(d):Math.round(obj.v);}});
+    });
+  },1200);
+}
+
+// ════ NAV SCROLL ════
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ════ INTERSECTION OBSERVER HELPER ════
+function onVis(sel,cb,thresh=0.15){
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){cb(e.target);io.unobserve(e.target);}});},{threshold:thresh});
+  document.querySelectorAll(sel).forEach(el=>io.observe(el));
+}
+
+// ABOUT
+onVis('#aboutBio',el=>anime({targets:el,translateY:[30,0],opacity:[0,1],duration:800,easing:'easeOutQuad'}));
+onVis('#aboutDetails',el=>{
+  anime({targets:'#aboutDetails .detail-row',translateX:[30,0],opacity:[0,1],delay:anime.stagger(80),duration:600,easing:'easeOutQuad'});
+  el.style.opacity=1;
+});
+
+// SKILLS
+onVis('#skillsGrid',()=>{
+  anime({targets:'#skillsGrid .skill-card',scale:[0.9,1],opacity:[0,1],delay:anime.stagger(100),duration:700,easing:'easeOutBack'});
+  setTimeout(()=>{
+    document.querySelectorAll('.sk-fill').forEach((f,i)=>{
+      anime({targets:f,width:['0%',f.dataset.w+'%'],duration:1400,delay:i*90,easing:'easeInOutQuart'});
+    });
+  },500);
+});
+
+// EXP
+onVis('#expItem',el=>{
+  anime({targets:el,translateY:[40,0],opacity:[0,1],duration:800,easing:'easeOutQuad',
+    complete(){anime({targets:'#expList li',translateX:[-12,0],opacity:[0,1],delay:anime.stagger(130),duration:600,easing:'easeOutQuad'});}
+  });
+});
+
+// PROJECTS
+onVis('#projGrid',()=>{
+  anime({targets:'#projGrid .proj-card',translateY:[50,0],opacity:[0,1],delay:anime.stagger(110),duration:800,easing:'easeOutBack'});
+});
+
+// AWARDS
+onVis('#awardsGrid',()=>{
+  anime({targets:'#awardsGrid .award-card',scale:[0.88,1],opacity:[0,1],delay:anime.stagger(150),duration:700,easing:'easeOutBack'});
+});
+
+// CONTACT
+onVis('#ctitle',()=>{
+  anime({targets:'#ctitle',translateY:[40,0],opacity:[0,1],duration:800,easing:'easeOutQuad'});
+  anime({targets:'#csub',opacity:[0,1],duration:800,delay:200,easing:'easeOutQuad'});
+  anime({targets:'#clinks',translateY:[20,0],opacity:[0,1],duration:700,delay:400,easing:'easeOutBack'});
+});
+
+// ════ ORBIT (Anime.js) ════
+const ORBS=[
+  {id:'oi1',a:0,  r:140},{id:'oi2',a:60, r:140},
+  {id:'oi3',a:120,r:140},{id:'oi4',a:180,r:140},
+  {id:'oi5',a:240,r:140},{id:'oi6',a:300,r:140}
+];
+onVis('#orbitScene',()=>{
+  anime({targets:'#orbitTitle',translateY:[-20,0],opacity:[0,1],duration:700,easing:'easeOutQuad'});
+
+  // Position & pop in items
+  ORBS.forEach((o,i)=>{
+    const el=document.getElementById(o.id);
+    const rad=o.a*Math.PI/180;
+    el.style.left=`calc(50% + ${Math.cos(rad)*o.r}px)`;
+    el.style.top =`calc(50% + ${Math.sin(rad)*o.r}px)`;
+    el.style.transform='translate(-50%,-50%)';
+    anime({targets:el,opacity:[0,1],scale:[0,1],delay:i*120+200,duration:600,easing:'easeOutBack'});
+  });
+
+  // Continuous spin
+  const state={a:0};
+  anime({targets:state,a:360,duration:30000,easing:'linear',loop:true,
+    update(){
+      ORBS.forEach(o=>{
+        const el=document.getElementById(o.id);if(!el)return;
+        const a=(o.a+state.a)*Math.PI/180;
+        el.style.left=`calc(50% + ${Math.cos(a)*o.r}px)`;
+        el.style.top =`calc(50% + ${Math.sin(a)*o.r}px)`;
+        el.style.transform=`translate(-50%,-50%) rotate(${-state.a}deg)`;
+      });
     }
+  });
+  anime({targets:'.ring-1',rotate:['0deg','360deg'], duration:22000,easing:'linear',loop:true});
+  anime({targets:'.ring-2',rotate:['0deg','-360deg'],duration:38000,easing:'linear',loop:true});
+},0.1);
 
-    class Particle {
-        constructor(startNode, endNode) { this.start = startNode; this.end = endNode; this.progress = 0; this.speed = 0.005 + Math.random() * 0.01; }
-        update() { this.progress += this.speed; if (this.progress >= 1) this.progress = 0; }
-        draw() {
-            const x = this.start.x + (this.end.x - this.start.x) * this.progress;
-            const y = this.start.y + (this.end.y - this.start.y) * this.progress;
-            ctx.fillStyle = '#2ecc71';
-            ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill();
-        }
-    }
+// ════ 3D TILT ════
+document.querySelectorAll('.tilt-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const dx=(e.clientX-r.left)/r.width-.5;
+    const dy=(e.clientY-r.top)/r.height-.5;
+    anime({targets:card,rotateY:dx*14,rotateX:-dy*14,duration:200,easing:'easeOutQuad'});
+  });
+  card.addEventListener('mouseleave',()=>{
+    anime({targets:card,rotateY:0,rotateX:0,duration:500,easing:'easeOutElastic(1,.7)'});
+  });
+});
 
-    function init() {
-        canvas.width = window.innerWidth; canvas.height = 500;
-        const labels = ['Bayesian', 'MCMC', 'LSTM', 'Statistics', 'R-Lang', 'Python', 'Survival'];
-        for(let i=0; i<15; i++) nodes.push(new Node(Math.random()*canvas.width, Math.random()*canvas.height, labels[i%labels.length]));
-        for(let i=0; i<25; i++) particles.push(new Particle(nodes[Math.floor(Math.random()*nodes.length)], nodes[Math.floor(Math.random()*nodes.length)]));
-    }
+// ════ MAGNETIC BUTTONS ════
+document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    anime({targets:btn,translateX:(e.clientX-r.left-r.width/2)*.25,translateY:(e.clientY-r.top-r.height/2)*.25,duration:300,easing:'easeOutQuad'});
+  });
+  btn.addEventListener('mouseleave',()=>{
+    anime({targets:btn,translateX:0,translateY:0,duration:600,easing:'easeOutElastic(1,.6)'});
+  });
+});
 
-    function animateCanvas() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = 'rgba(52, 152, 219, 0.1)';
-        particles.forEach(p => {
-            ctx.beginPath(); ctx.moveTo(p.start.x, p.start.y); ctx.lineTo(p.end.x, p.end.y); ctx.stroke();
-            p.update(); p.draw();
-        });
-        nodes.forEach(n => n.draw());
-        requestAnimationFrame(animateCanvas);
-    }
-
-    init(); animateCanvas();
-
-    // ANIME.JS: DASHBOARD ENTRANCE
-    anime({
-        targets: '.ui-card',
-        translateY: [100, 0],
-        opacity: [0, 1],
-        delay: anime.stagger(200),
-        duration: 1000,
-        easing: 'easeOutQuad'
-    });
-
-    // ANIME.JS: STAGGERED SKILL PILLS
-    anime({
-        targets: '.skill-pill',
-        scale: [0, 1],
-        opacity: [0, 1],
-        delay: anime.stagger(100, {start: 1000}),
-        duration: 800,
-        easing: 'easeOutElastic(1, .8)'
-    });
-
-    // ANIME.JS: CONTINUOUS ORBIT ROTATION
-    anime({
-        targets: '.orbit-ring',
-        rotate: 360,
-        duration: 25000,
-        easing: 'linear',
-        loop: true
-    });
-
-    anime({
-        targets: '.orbit-item',
-        rotate: -360,
-        duration: 25000,
-        easing: 'linear',
-        loop: true
-    });
-
-    // 3D TILT ENGINE
-    document.addEventListener('mousemove', (e) => {
-        const x = (window.innerWidth / 2 - e.pageX) / 40;
-        const y = (window.innerHeight / 2 - e.pageY) / 40;
-        document.querySelectorAll('.ui-card').forEach(card => {
-            card.style.transform = `rotateY(${x}deg) rotateX(${y * -1}deg)`;
-        });
-    });
+// ════ SECTION TAG COUNTERS (inline stagger on scroll) ════
+onVis('.section-tag',el=>{
+  anime({targets:el,translateX:[-20,0],opacity:[0,1],duration:600,easing:'easeOutQuad'});
+},0.1);
+onVis('.section-title',el=>{
+  anime({targets:el,translateY:[20,0],opacity:[0,1],duration:700,easing:'easeOutQuad'});
+},0.1);
 </script>
 </body>
 </html>
